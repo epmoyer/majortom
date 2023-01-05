@@ -32,11 +32,15 @@ func main() {
 	}
 
 	shortcuts := loadShortcuts()
+	show_shortcuts(shortcuts)
+
+	os.Exit(0)
+}
+
+func show_shortcuts(shortcuts ShortcutsT) {
 	for shortcut, path := range shortcuts.Locations {
 		fmt.Println(shortcut, path)
 	}
-
-	os.Exit(0)
 }
 
 func loadShortcuts() ShortcutsT {
