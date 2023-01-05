@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
+
+	"github.com/gookit/color"
 )
 
 const APP_NAME = "to"
@@ -14,6 +17,10 @@ const APP_VERSION = "0.0.1b"
 type ShortcutsT struct {
 	Locations map[string]string `json:locations`
 }
+
+var styleShortcut = color.HEXStyle("#ff8000")
+var stylePath = color.HEXStyle("#00ffff")
+var styleCurrent = color.HEXStyle("#ffff00")
 
 func main() {
 	optVersion := flag.Bool("version", false,
@@ -38,8 +45,22 @@ func main() {
 }
 
 func show_shortcuts(shortcuts ShortcutsT) {
-	for shortcut, path := range shortcuts.Locations {
-		fmt.Println(shortcut, path)
+	var maxLen int
+	names := make([]string, 0)
+	for shortcut, _ := range shortcuts.Locations {
+		if len(shortcut) > maxLen {
+			maxLen = len(shortcut)
+		}
+		names = append(names, shortcut)
+	}
+	sort.Strings(names)
+	for _, shortcut := range names {
+		path := shortcuts.Locations[shortcut]
+		// }
+		// for shortcut, path := range shortcuts.Locations {
+		// fmt.Println(shortcut, path)
+		styleShortcut.Printf("%-*s ", maxLen, shortcut)
+		stylePath.Printf("%s\n", path)
 	}
 }
 
