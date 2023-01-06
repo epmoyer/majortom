@@ -55,46 +55,47 @@ func main() {
 	config := loadConfig()
 
 	if len(args) == 0 {
-		show_shortcuts(config)
+		showShortcuts(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	if *optAdd {
-		config = add_shortcut(config, args[0])
-		save_config(config)
+		config = addShortcut(config, args[0])
+		saveConfig(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	if *optDelete {
-		config = delete_shortcut(config, args[0])
-		save_config(config)
+		config = deleteShortcut(config, args[0])
+		saveConfig(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
-	path := get_path(config, args[0])
+	path := getPath(config, args[0])
 	fmt.Printf(":%s\n", path)
 
 	os.Exit(EXIT_CODE_SUCCESS)
 }
 
-func add_shortcut(config ConfigDataT, shortcut string) ConfigDataT {
+func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	currentPath, err := os.Getwd()
 	if err != nil {
 		log.Println(err)
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
+	currentPath = abbreviateHome(currentPath)
 	config.Locations[shortcut] = currentPath
 	return config
 }
 
-func delete_shortcut(config ConfigDataT, shortcut string) ConfigDataT {
+func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	fmt.Printf("Not Implemented.\n")
 	return config
 }
 
-func save_config(config ConfigDataT) {
+func saveConfig(config ConfigDataT) {
 	fmt.Printf("%#v\n", config)
 }
 
-func get_path(config ConfigDataT, shortcut string) string {
+func getPath(config ConfigDataT, shortcut string) string {
 	paths := make([]string, 0)
 	matched_keys := make([]string, 0)
 
@@ -129,7 +130,7 @@ func get_path(config ConfigDataT, shortcut string) string {
 	return expandHome(paths[0])
 }
 
-func show_shortcuts(config ConfigDataT) {
+func showShortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
 		log.Println(err)
@@ -171,6 +172,12 @@ func expandHome(path string) string {
 		return filepath.Join(dir, path[2:])
 	}
 	return path
+}
+
+func abbreviateHome(path string) string {
+	usr, _ := user.Current()
+	dir := usr.HomeDir
+	return strings.Replace(path, dir, "~", 1)
 }
 
 func loadConfig() ConfigDataT {
