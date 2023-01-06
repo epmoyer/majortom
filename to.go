@@ -23,6 +23,9 @@ type ConfigDataT struct {
 
 var styleShortcut = color.HEXStyle("#ff8000")
 var stylePath = color.HEXStyle("#00ffff")
+
+// var stylePathDNE = color.HEXStyle("#ffa0a0")
+var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
 var styleError = color.HEXStyle("#ff4040")
 
@@ -157,12 +160,18 @@ func showShortcuts(config ConfigDataT) {
 	sort.Strings(shortcuts)
 	for _, shortcut := range shortcuts {
 		path := config.Locations[shortcut]
-		if expandHome(path) == currentPath {
+		pathAbsolute := expandHome(path)
+		if pathAbsolute == currentPath {
 			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
 		} else {
 			styleShortcut.Printf("  %-*s ", maxLen, shortcut)
 		}
-		stylePath.Printf("%s\n", path)
+		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
+			// path/to/whatever exists
+			stylePath.Printf("%s\n", path)
+		} else {
+			stylePathDNE.Printf("%s\n", path)
+		}
 	}
 }
 
