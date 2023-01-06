@@ -42,7 +42,7 @@ func main() {
 	flag.Parse()
 
 	if *optVersion {
-		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
+		printStderr(fmt.Sprintf("%s %s\n", APP_NAME, APP_VERSION))
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
@@ -95,7 +95,7 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 			shortcut))
 		os.Exit(EXIT_CODE_FAIL)
 	}
-	fmt.Printf("Deleting shortcut \"%s\"...\n", shortcut)
+	printStderr(fmt.Sprintf("Deleting shortcut \"%s\"...\n", shortcut))
 	return config
 }
 
@@ -161,16 +161,16 @@ func showShortcuts(config ConfigDataT) {
 		path := config.Locations[shortcut]
 		pathAbsolute := expandHome(path)
 		if pathAbsolute == currentPath {
-			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
+			printStderr(styleCurrent.Sprintf("▶ %-*s ", maxLen, shortcut))
 		} else {
-			styleShortcut.Printf("  %-*s ", maxLen, shortcut)
+			printStderr(styleShortcut.Sprintf("  %-*s ", maxLen, shortcut))
 		}
 		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
 			// Path exists
-			stylePath.Printf("%s\n", path)
+			printStderr(stylePath.Sprintf("%s\n", path))
 		} else {
 			// Path does not exist
-			stylePathDNE.Printf("%s\n", path)
+			printStderr(stylePathDNE.Sprintf("%s\n", path))
 		}
 	}
 }

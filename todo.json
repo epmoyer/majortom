@@ -71,13 +71,30 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
+                },
+                {
+                    "name": "Show database location when showing usage/help",
+                    "id": 103,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
         {
             "name": "Doing",
             "id": 3,
-            "cards": []
+            "cards": [
+                {
+                    "name": "Consider removing all StdErr printing and depending on \":\" prefix for returned paths instead.",
+                    "id": 102,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                }
+            ]
         },
         {
             "name": "Done",
