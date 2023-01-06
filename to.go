@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -25,11 +24,12 @@ type ConfigDataT struct {
 var styleShortcut = color.HEXStyle("#ff8000")
 var stylePath = color.HEXStyle("#00ffff")
 var styleCurrent = color.HEXStyle("#ffff00")
-
 var styleError = color.HEXStyle("#ff4040")
 
 var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
+
+var CONFIG_FILENAME = "to_shortcuts.json"
 
 func main() {
 	optVersion := flag.Bool("version", false,
@@ -77,7 +77,6 @@ func main() {
 func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		log.Println(err)
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -87,14 +86,22 @@ func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 }
 
 func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
-	fmt.Printf("Not Implemented.\n")
+	if _, ok := config.Locations[shortcut]; ok {
+		delete(config.Locations, shortcut)
+	} else {
+		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
+			"Shortcut \"%s\" does not exist.",
+			shortcut))
+		os.Exit(EXIT_CODE_FAIL)
+	}
+	fmt.Printf("Deleting shortcut \"%s\"...\n", shortcut)
 	return config
 }
 
 func saveConfig(config ConfigDataT) {
-	fmt.Printf("%#v\n", config)
+	// fmt.Printf("%#v\n", config)
 	file, _ := json.MarshalIndent(config, "", "    ")
-	_ = ioutil.WriteFile("debug.to_shortcuts.json", file, 0644)
+	_ = ioutil.WriteFile(CONFIG_FILENAME, file, 0644)
 }
 
 func getPath(config ConfigDataT, shortcut string) string {
@@ -135,7 +142,6 @@ func getPath(config ConfigDataT, shortcut string) string {
 func showShortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		log.Println(err)
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -184,7 +190,7 @@ func abbreviateHome(path string) string {
 
 func loadConfig() ConfigDataT {
 	// Open our jsonFile
-	jsonFile, err := os.Open("to_shortcuts.json")
+	jsonFile, err := os.Open(CONFIG_FILENAME)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
