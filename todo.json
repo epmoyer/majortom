@@ -1,0 +1,88 @@
+{
+    "version": 1,
+    "app_id": "trellis",
+    "board": {
+        "name": "To (path shortcut manager)",
+        "preferences": {
+            "backgroundColor": "#6a4c80"
+        }
+    },
+    "labels": [
+        {
+            "name": "",
+            "id": 1,
+            "color": "green"
+        },
+        {
+            "name": "",
+            "id": 2,
+            "color": "yellow"
+        },
+        {
+            "name": "",
+            "id": 3,
+            "color": "orange"
+        },
+        {
+            "name": "",
+            "id": 4,
+            "color": "red"
+        },
+        {
+            "name": "",
+            "id": 5,
+            "color": "purple"
+        },
+        {
+            "name": "",
+            "id": 6,
+            "color": "blue"
+        },
+        {
+            "name": "",
+            "id": 7,
+            "color": "sky"
+        },
+        {
+            "name": "",
+            "id": 8,
+            "color": "lime"
+        },
+        {
+            "name": "",
+            "id": 9,
+            "color": "pink"
+        },
+        {
+            "name": "",
+            "id": 10,
+            "color": "black"
+        }
+    ],
+    "lists": [
+        {
+            "name": "Backlog",
+            "id": 2,
+            "cards": [
+                {
+                    "name": "Consider adding .PrintFStderr method to existing HexStyle object.",
+                    "id": 101,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                }
+            ]
+        },
+        {
+            "name": "Doing",
+            "id": 3,
+            "cards": []
+        },
+        {
+            "name": "Done",
+            "id": 4,
+            "cards": []
+        }
+    ]
+}
