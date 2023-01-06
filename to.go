@@ -23,8 +23,6 @@ type ConfigDataT struct {
 
 var styleShortcut = color.HEXStyle("#ff8000")
 var stylePath = color.HEXStyle("#00ffff")
-
-// var stylePathDNE = color.HEXStyle("#ffa0a0")
 var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
 var styleError = color.HEXStyle("#ff4040")
@@ -167,9 +165,10 @@ func showShortcuts(config ConfigDataT) {
 			styleShortcut.Printf("  %-*s ", maxLen, shortcut)
 		}
 		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
-			// path/to/whatever exists
+			// Path exists
 			stylePath.Printf("%s\n", path)
 		} else {
+			// Path does not exist
 			stylePathDNE.Printf("%s\n", path)
 		}
 	}
@@ -219,6 +218,5 @@ func getConfigPath() string {
 			"Environment var TO_CONFIG_DB is not set. Set it to the path of the TO config json."))
 		os.Exit(EXIT_CODE_FAIL)
 	}
-	// fmt.Println(path)
 	return path
 }
