@@ -15,7 +15,7 @@ import (
 )
 
 const APP_NAME = "to"
-const APP_VERSION = "0.0.1b"
+const APP_VERSION = "1.0.0"
 
 type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
@@ -54,14 +54,14 @@ func main() {
 	flag.Parse()
 
 	if *optVersion {
-		printStderr(fmt.Sprintf("%s %s\n", APP_NAME, APP_VERSION))
+		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
 	args := flag.Args()
 	if len(args) > 1 {
 		// Too many args.
-		printStderr("Too many arguments.\n")
+		fmt.Println("Too many arguments.")
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
@@ -91,11 +91,12 @@ func main() {
 func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		printStderrError(err)
+		fmt.Println(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	currentPath = abbreviateHome(currentPath)
 	config.Locations[shortcut] = currentPath
+	fmt.Printf("Adding shortcut \"%s\"...\n", shortcut)
 	return config
 }
 
@@ -103,12 +104,12 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	if _, ok := config.Locations[shortcut]; ok {
 		delete(config.Locations, shortcut)
 	} else {
-		printStderr(styleError.Sprintf(
+		styleError.Printf(
 			"Shortcut \"%s\" does not exist.\n",
-			shortcut))
+			shortcut)
 		os.Exit(EXIT_CODE_FAIL)
 	}
-	printStderr(fmt.Sprintf("Deleting shortcut \"%s\"...\n", shortcut))
+	fmt.Printf("Deleting shortcut \"%s\"...\n", shortcut)
 	return config
 }
 
@@ -127,9 +128,9 @@ func getPath(config ConfigDataT, shortcut string) string {
 		}
 	}
 	if len(paths) == 0 {
-		printStderr(styleError.Sprintf(
+		styleError.Printf(
 			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n",
-			shortcut))
+			shortcut)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	if len(paths) > 1 {
@@ -140,7 +141,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 				message += ", "
 			}
 		}
-		printStderr(message)
+		fmt.Println(message)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	// Return the (single) matching path
@@ -150,7 +151,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 func showShortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		printStderrError(err)
+		fmt.Println(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
@@ -162,23 +163,27 @@ func showShortcuts(config ConfigDataT) {
 		}
 		shortcuts = append(shortcuts, shortcut)
 	}
-	printStderr("Available shortcuts:\n")
+	fmt.Println("Available shortcuts:")
 	sort.Strings(shortcuts)
 	for _, shortcut := range shortcuts {
 		path := config.Locations[shortcut]
 		pathAbsolute := expandHome(path)
 		if pathAbsolute == currentPath {
-			printStderr(styleCurrent.Sprintf("▶ %-*s ", maxLen, shortcut))
+			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
 		} else {
-			printStderr(styleShortcut.Sprintf("  %-*s ", maxLen, shortcut))
+			styleShortcut.Printf("  %-*s ", maxLen, shortcut)
 		}
 		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
 			// Path exists
-			printStderr(stylePath.Sprintf("%s\n", path))
+			stylePath.Printf("%s", path)
 		} else {
 			// Path does not exist
-			printStderr(stylePathDNE.Sprintf("%s\n", path))
+			stylePathDNE.Printf("%s", path)
 		}
+		// We cannot include the \n in the final style .Printf() above, otherwise the \n occurs
+		// before the subsequent escape code for clearing the style, which causes an additional
+		// linefeed to be printed when we echo the output text in bash/zsh.
+		fmt.Print("\n")
 	}
 }
 
@@ -207,7 +212,7 @@ func loadConfig() ConfigDataT {
 	pathConfig := getConfigPath()
 	jsonFile, err := os.Open(pathConfig)
 	if err != nil {
-		printStderrError(err)
+		fmt.Println(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	defer jsonFile.Close()
@@ -227,16 +232,9 @@ func saveConfig(config ConfigDataT) {
 func getConfigPath() string {
 	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
-		printStderr(styleError.Sprintf(
-			"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG))
+		styleError.Printf(
+			"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	return path
-}
-
-func printStderr(text string) {
-	fmt.Fprintf(os.Stderr, "%s", text)
-}
-func printStderrError(err error) {
-	fmt.Fprintf(os.Stderr, "%s\n", err.Error())
 }
