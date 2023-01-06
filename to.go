@@ -61,16 +61,32 @@ func main() {
 }
 
 func get_path(config ConfigDataT, shortcut string) string {
+	paths := make([]string, 0)
+	matched_keys := make([]string, 0)
 
 	for key, path := range config.Locations {
 		if key == shortcut {
+			// Always return the path if the key EXACTLY matches the requested shortcut
 			return path
 		}
+		if strings.HasPrefix(key, shortcut) {
+			paths = append(paths, path)
+			matched_keys = append(matched_keys, key)
+		}
 	}
-	fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
-		"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
-		shortcut))
-	os.Exit(EXIT_CODE_FAIL)
+	if len(paths) == 0 {
+		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
+			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
+			shortcut))
+		os.Exit(EXIT_CODE_FAIL)
+	}
+	if len(paths) > 1 {
+		fmt.Fprintf(os.Stderr, "%s", styleError.Sprintf("Matched multiple shortcuts: "))
+		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
+			"%s",
+			strings.Join(matched_keys, ", ")))
+	}
+
 	return "" // never reached
 }
 
