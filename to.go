@@ -90,8 +90,8 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	if _, ok := config.Locations[shortcut]; ok {
 		delete(config.Locations, shortcut)
 	} else {
-		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
-			"Shortcut \"%s\" does not exist.",
+		printStderr(styleError.Sprintf(
+			"Shortcut \"%s\" does not exist.\n",
 			shortcut))
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -120,8 +120,8 @@ func getPath(config ConfigDataT, shortcut string) string {
 		}
 	}
 	if len(paths) == 0 {
-		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
-			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
+		printStderr(styleError.Sprintf(
+			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n",
 			shortcut))
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -133,7 +133,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 				message += ", "
 			}
 		}
-		fmt.Fprintf(os.Stderr, "%s\n", message)
+		printStderr(message)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
@@ -143,7 +143,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 func showShortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		printStderrError(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
@@ -201,7 +201,7 @@ func loadConfig() ConfigDataT {
 	pathConfig := getConfigPath()
 	jsonFile, err := os.Open(pathConfig)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		printStderrError(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	defer jsonFile.Close()
@@ -215,8 +215,8 @@ func loadConfig() ConfigDataT {
 func getConfigPath() string {
 	path := os.Getenv("TO_CONFIG_DB")
 	if path == "" {
-		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
-			"Environment var TO_CONFIG_DB is not set. Set it to the path of the TO config json."))
+		printStderr(styleError.Sprintf(
+			"Environment var TO_CONFIG_DB is not set. Set it to the path of the TO config json.\n"))
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	return path
