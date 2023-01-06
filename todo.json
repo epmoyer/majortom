@@ -63,32 +63,15 @@
         {
             "name": "Backlog",
             "id": 2,
-            "cards": [
-                {
-                    "name": "Consider adding .PrintFStderr method to existing HexStyle object.",
-                    "id": 101,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                }
-            ]
+            "cards": []
         },
         {
             "name": "Doing",
             "id": 3,
             "cards": [
                 {
-                    "name": "Show database location when showing usage/help",
-                    "id": 103,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
-                    "name": "Consider removing all StdErr printing and depending on \":\" prefix for returned paths instead.",
-                    "id": 102,
+                    "name": "add an -init command to create db if it doesn't exist",
+                    "id": 104,
                     "id_labels": [],
                     "description": "",
                     "due": null,
@@ -99,7 +82,39 @@
         {
             "name": "Done",
             "id": 4,
-            "cards": []
+            "cards": [
+                {
+                    "name": "Consider removing all StdErr printing and depending on \":\" prefix for returned paths instead.",
+                    "id": 102,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
+                    "name": "Show database location when showing usage/help",
+                    "id": 103,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                }
+            ]
+        },
+        {
+            "name": "OBE",
+            "id": 5,
+            "cards": [
+                {
+                    "name": "Consider adding .PrintFStderr method to existing HexStyle object.",
+                    "id": 101,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                }
+            ],
+            "archived": false
         }
     ]
 }
