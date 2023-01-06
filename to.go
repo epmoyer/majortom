@@ -112,12 +112,6 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	return config
 }
 
-func saveConfig(config ConfigDataT) {
-	// fmt.Printf("%#v\n", config)
-	file, _ := json.MarshalIndent(config, "", "    ")
-	_ = ioutil.WriteFile(CONFIG_FILENAME, file, 0644)
-}
-
 func getPath(config ConfigDataT, shortcut string) string {
 	paths := make([]string, 0)
 	matched_keys := make([]string, 0)
@@ -210,7 +204,6 @@ func abbreviateHome(path string) string {
 }
 
 func loadConfig() ConfigDataT {
-	// Open our jsonFile
 	pathConfig := getConfigPath()
 	jsonFile, err := os.Open(pathConfig)
 	if err != nil {
@@ -223,6 +216,12 @@ func loadConfig() ConfigDataT {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &shortcuts)
 	return shortcuts
+}
+
+func saveConfig(config ConfigDataT) {
+	pathConfig := getConfigPath()
+	file, _ := json.MarshalIndent(config, "", "    ")
+	_ = ioutil.WriteFile(pathConfig, file, 0644)
 }
 
 func getConfigPath() string {
