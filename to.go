@@ -69,15 +69,15 @@ func show_shortcuts(config ConfigDataT) {
 	fmt.Println(currentPath)
 
 	var maxLen int
-	names := make([]string, 0)
+	shortcuts := make([]string, 0)
 	for shortcut, _ := range config.Locations {
 		if len(shortcut) > maxLen {
 			maxLen = len(shortcut)
 		}
-		names = append(names, shortcut)
+		shortcuts = append(shortcuts, shortcut)
 	}
-	sort.Strings(names)
-	for _, shortcut := range names {
+	sort.Strings(shortcuts)
+	for _, shortcut := range shortcuts {
 		path := config.Locations[shortcut]
 		if expandHome(path) == currentPath {
 			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
