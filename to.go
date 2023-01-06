@@ -49,7 +49,7 @@ func main() {
 	args := flag.Args()
 	if len(args) > 1 {
 		// Too many args.
-		fmt.Fprintf(os.Stderr, "Too many arguments.\n")
+		printStderr("Too many arguments.\n")
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
@@ -78,7 +78,7 @@ func main() {
 func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	currentPath, err := os.Getwd()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		printStderrError(err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	currentPath = abbreviateHome(currentPath)
@@ -155,7 +155,7 @@ func showShortcuts(config ConfigDataT) {
 		}
 		shortcuts = append(shortcuts, shortcut)
 	}
-	eprint("Available shortcuts:\n")
+	printStderr("Available shortcuts:\n")
 	sort.Strings(shortcuts)
 	for _, shortcut := range shortcuts {
 		path := config.Locations[shortcut]
@@ -222,6 +222,9 @@ func getConfigPath() string {
 	return path
 }
 
-func eprint(text string) {
+func printStderr(text string) {
 	fmt.Fprintf(os.Stderr, "%s", text)
+}
+func printStderrError(err error) {
+	fmt.Fprintf(os.Stderr, "%s\n", err.Error())
 }
