@@ -30,9 +30,21 @@ var styleError = color.HEXStyle("#ff4040")
 var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
 
+var ENV_VAR_CONFIG = "TO_CONFIG_DB"
+
 var CONFIG_FILENAME = "to_shortcuts.json"
 
 func main() {
+	flag.Usage = func() {
+		w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
+		fmt.Fprintf(w, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+		fmt.Fprintf(w,
+			"NOTE:\n   Set the environment variable %s to point to to's configuration json file.\n",
+			ENV_VAR_CONFIG)
+		fmt.Fprintf(w, "   Currently %s = \"%s\"\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
+	}
+
 	optVersion := flag.Bool("version", false,
 		"Show version.")
 	optAdd := flag.Bool("a", false,
@@ -214,10 +226,10 @@ func loadConfig() ConfigDataT {
 }
 
 func getConfigPath() string {
-	path := os.Getenv("TO_CONFIG_DB")
+	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
 		printStderr(styleError.Sprintf(
-			"Environment var TO_CONFIG_DB is not set. Set it to the path of the TO config json.\n"))
+			"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG))
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	return path
