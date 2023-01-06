@@ -43,13 +43,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	shortcuts := loadShortcuts()
-	show_shortcuts(shortcuts)
+	config := loadConfig()
+
+	if len(args) == 0 {
+		show_shortcuts(config)
+		os.Exit(0)
+	}
+	path := get_path(config, args[0])
+	fmt.Printf(":%s\n", path)
 
 	os.Exit(0)
 }
 
-func show_shortcuts(shortcuts ConfigDataT) {
+func get_path(config ConfigDataT, shortcut string) string {
+	return "test"
+}
+
+func show_shortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
 		log.Println(err)
@@ -60,7 +70,7 @@ func show_shortcuts(shortcuts ConfigDataT) {
 
 	var maxLen int
 	names := make([]string, 0)
-	for shortcut, _ := range shortcuts.Locations {
+	for shortcut, _ := range config.Locations {
 		if len(shortcut) > maxLen {
 			maxLen = len(shortcut)
 		}
@@ -68,7 +78,7 @@ func show_shortcuts(shortcuts ConfigDataT) {
 	}
 	sort.Strings(names)
 	for _, shortcut := range names {
-		path := shortcuts.Locations[shortcut]
+		path := config.Locations[shortcut]
 		if expandHome(path) == currentPath {
 			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
 		} else {
@@ -93,7 +103,7 @@ func expandHome(path string) string {
 	return path
 }
 
-func loadShortcuts() ConfigDataT {
+func loadConfig() ConfigDataT {
 	// Open our jsonFile
 	jsonFile, err := os.Open("to_shortcuts.json")
 	if err != nil {
