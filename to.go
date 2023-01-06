@@ -81,13 +81,18 @@ func get_path(config ConfigDataT, shortcut string) string {
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	if len(paths) > 1 {
-		fmt.Fprintf(os.Stderr, "%s", styleError.Sprintf("Matched multiple shortcuts: "))
-		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
-			"%s",
-			strings.Join(matched_keys, ", ")))
+		message := "Matched multiple shortcuts: "
+		for i, key := range matched_keys {
+			message += styleShortcut.Sprintf("%s", key)
+			if i < len(matched_keys)-1 {
+				message += ", "
+			}
+		}
+		fmt.Fprintf(os.Stderr, "%s\n", message)
+		os.Exit(EXIT_CODE_FAIL)
 	}
 
-	return "" // never reached
+	return expandHome(paths[0])
 }
 
 func show_shortcuts(config ConfigDataT) {
