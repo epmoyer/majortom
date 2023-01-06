@@ -67,7 +67,9 @@ func get_path(config ConfigDataT, shortcut string) string {
 			return path
 		}
 	}
-	fmt.Fprintf(os.Stderr, "%s", styleError.Sprintf("No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n", shortcut))
+	fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
+		"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
+		shortcut))
 	os.Exit(EXIT_CODE_FAIL)
 	return "" // never reached
 }
