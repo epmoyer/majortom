@@ -155,6 +155,7 @@ func showShortcuts(config ConfigDataT) {
 		}
 		shortcuts = append(shortcuts, shortcut)
 	}
+	eprint("Available shortcuts:\n")
 	sort.Strings(shortcuts)
 	for _, shortcut := range shortcuts {
 		path := config.Locations[shortcut]
@@ -219,4 +220,8 @@ func getConfigPath() string {
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	return path
+}
+
+func eprint(text string) {
+	fmt.Fprintf(os.Stderr, "%s", text)
 }
