@@ -93,6 +93,8 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 
 func saveConfig(config ConfigDataT) {
 	fmt.Printf("%#v\n", config)
+	file, _ := json.MarshalIndent(config, "", "    ")
+	_ = ioutil.WriteFile("debug.to_shortcuts.json", file, 0644)
 }
 
 func getPath(config ConfigDataT, shortcut string) string {
