@@ -26,6 +26,11 @@ var styleShortcut = color.HEXStyle("#ff8000")
 var stylePath = color.HEXStyle("#00ffff")
 var styleCurrent = color.HEXStyle("#ffff00")
 
+var styleError = color.HEXStyle("#ff4040")
+
+var EXIT_CODE_SUCCESS = 0
+var EXIT_CODE_FAIL = 1
+
 func main() {
 	optVersion := flag.Bool("version", false,
 		"Show version.")
@@ -33,30 +38,38 @@ func main() {
 
 	if *optVersion {
 		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
-		os.Exit(0)
+		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
 	args := flag.Args()
 	if len(args) > 1 {
 		// Too many args.
 		fmt.Fprintf(os.Stderr, "Too many arguments.\n")
-		os.Exit(1)
+		os.Exit(EXIT_CODE_FAIL)
 	}
 
 	config := loadConfig()
 
 	if len(args) == 0 {
 		show_shortcuts(config)
-		os.Exit(0)
+		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	path := get_path(config, args[0])
 	fmt.Printf(":%s\n", path)
 
-	os.Exit(0)
+	os.Exit(EXIT_CODE_SUCCESS)
 }
 
 func get_path(config ConfigDataT, shortcut string) string {
-	return "test"
+
+	for key, path := range config.Locations {
+		if key == shortcut {
+			return path
+		}
+	}
+	fmt.Fprintf(os.Stderr, "%s", styleError.Sprintf("No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n", shortcut))
+	os.Exit(EXIT_CODE_FAIL)
+	return "" // never reached
 }
 
 func show_shortcuts(config ConfigDataT) {
@@ -64,7 +77,7 @@ func show_shortcuts(config ConfigDataT) {
 	if err != nil {
 		log.Println(err)
 		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		os.Exit(EXIT_CODE_FAIL)
 	}
 	fmt.Println(currentPath)
 
@@ -108,7 +121,7 @@ func loadConfig() ConfigDataT {
 	jsonFile, err := os.Open("to_shortcuts.json")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		os.Exit(EXIT_CODE_FAIL)
 	}
 	defer jsonFile.Close()
 
