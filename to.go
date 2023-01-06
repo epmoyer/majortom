@@ -70,6 +70,7 @@ func main() {
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	path := getPath(config, args[0])
+	path = expandHome(path)
 	fmt.Printf(":%s\n", path)
 
 	os.Exit(EXIT_CODE_SUCCESS)
@@ -136,8 +137,8 @@ func getPath(config ConfigDataT, shortcut string) string {
 		printStderr(message)
 		os.Exit(EXIT_CODE_FAIL)
 	}
-
-	return expandHome(paths[0])
+	// Return the (single) matching path
+	return paths[0]
 }
 
 func showShortcuts(config ConfigDataT) {
@@ -177,15 +178,15 @@ func showShortcuts(config ConfigDataT) {
 
 func expandHome(path string) string {
 	usr, _ := user.Current()
-	dir := usr.HomeDir
+	homeDir := usr.HomeDir
 
 	if path == "~" {
 		// In case of "~", which won't be caught by the "else if"
-		return dir
+		return homeDir
 	} else if strings.HasPrefix(path, "~/") {
 		// Use strings.HasPrefix so we don't match paths like
 		// "/something/~/something/"
-		return filepath.Join(dir, path[2:])
+		return filepath.Join(homeDir, path[2:])
 	}
 	return path
 }
