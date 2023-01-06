@@ -34,6 +34,10 @@ var EXIT_CODE_FAIL = 1
 func main() {
 	optVersion := flag.Bool("version", false,
 		"Show version.")
+	optAdd := flag.Bool("a", false,
+		"Add current path (as requested shortcut).")
+	optDelete := flag.Bool("d", false,
+		"Delete requested shortcut.")
 	flag.Parse()
 
 	if *optVersion {
@@ -54,10 +58,40 @@ func main() {
 		show_shortcuts(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
+	if *optAdd {
+		config = add_shortcut(config, args[0])
+		save_config(config)
+		os.Exit(EXIT_CODE_SUCCESS)
+	}
+	if *optDelete {
+		config = delete_shortcut(config, args[0])
+		save_config(config)
+		os.Exit(EXIT_CODE_SUCCESS)
+	}
 	path := get_path(config, args[0])
 	fmt.Printf(":%s\n", path)
 
 	os.Exit(EXIT_CODE_SUCCESS)
+}
+
+func add_shortcut(config ConfigDataT, shortcut string) ConfigDataT {
+	currentPath, err := os.Getwd()
+	if err != nil {
+		log.Println(err)
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(EXIT_CODE_FAIL)
+	}
+	config.Locations[shortcut] = currentPath
+	return config
+}
+
+func delete_shortcut(config ConfigDataT, shortcut string) ConfigDataT {
+	fmt.Printf("Not Implemented.\n")
+	return config
+}
+
+func save_config(config ConfigDataT) {
+	fmt.Printf("%#v\n", config)
 }
 
 func get_path(config ConfigDataT, shortcut string) string {
