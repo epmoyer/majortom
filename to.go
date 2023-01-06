@@ -145,7 +145,6 @@ func showShortcuts(config ConfigDataT) {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
 	}
-	fmt.Println(currentPath)
 
 	var maxLen int
 	shortcuts := make([]string, 0)
@@ -190,7 +189,8 @@ func abbreviateHome(path string) string {
 
 func loadConfig() ConfigDataT {
 	// Open our jsonFile
-	jsonFile, err := os.Open(CONFIG_FILENAME)
+	pathConfig := getConfigPath()
+	jsonFile, err := os.Open(pathConfig)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(EXIT_CODE_FAIL)
@@ -201,4 +201,15 @@ func loadConfig() ConfigDataT {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &shortcuts)
 	return shortcuts
+}
+
+func getConfigPath() string {
+	path := os.Getenv("TO_CONFIG_DB")
+	if path == "" {
+		fmt.Fprintf(os.Stderr, "%s\n", styleError.Sprintf(
+			"Environment var TO_CONFIG_DB is not set. Set it to the path of the TO config json."))
+		os.Exit(EXIT_CODE_FAIL)
+	}
+	// fmt.Println(path)
+	return path
 }
