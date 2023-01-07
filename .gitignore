@@ -1,6 +1,7 @@
 go.sum
 debug.*.json
 untracked/
+.vscode
 
 # Binaries
 majortom
