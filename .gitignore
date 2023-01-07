@@ -1,3 +1,4 @@
+.DS_Store
 go.sum
 debug.*.json
 untracked/
