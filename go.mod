@@ -1,4 +1,4 @@
-module to
+module majortom
 
 go 1.19
 

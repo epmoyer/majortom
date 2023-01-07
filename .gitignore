@@ -3,5 +3,5 @@ debug.*.json
 untracked/
 
 # Binaries
-to
-to.linux.amd64
+majortom
+majortom.linux.amd64
