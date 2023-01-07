@@ -176,9 +176,9 @@ func showShortcuts(config ConfigDataT) {
 		path := config.Locations[shortcut]
 		pathAbsolute := expandHome(path)
 		if pathAbsolute == currentPath {
-			styleCurrent.Printf("▶ %-*s ", maxLen, shortcut)
+			colorPrintF(ColorCurrent, "▶ %-*s ", maxLen, shortcut)
 		} else {
-			styleShortcut.Printf("  %-*s ", maxLen, shortcut)
+			colorPrintF(ColorShortcut, "  %-*s ", maxLen, shortcut)
 		}
 		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
 			// Path exists
