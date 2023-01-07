@@ -63,12 +63,24 @@
         {
             "name": "Backlog",
             "id": 2,
-            "cards": []
-        },
-        {
-            "name": "Doing",
-            "id": 3,
             "cards": [
+                {
+                    "name": "Need a new name (\"to____\", so can shorten as \"to\")",
+                    "id": 105,
+                    "id_labels": [],
+                    "description": null,
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
+                },
+                {
+                    "name": "If env var not set, default to ~/.config/to___/to____config.json",
+                    "id": 106,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
                 {
                     "name": "add an -init command to create db if it doesn't exist",
                     "id": 104,
@@ -78,6 +90,11 @@
                     "due_complete": false
                 }
             ]
+        },
+        {
+            "name": "Doing",
+            "id": 3,
+            "cards": []
         },
         {
             "name": "Done",
