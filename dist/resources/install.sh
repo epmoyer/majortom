@@ -1,7 +1,13 @@
 #/bin/bash
+
+RED="\033[31m"
+GREEN="\033[32m"
+ENDCOLOR="\033[0m"
+
 echo "Installing to /usr/local/bin.  You may be prompted for sudo permissions..."
 sudo cp majortom /usr/local/bin
 sudo chmod 755 /usr/local/bin/majortom
+echo "${GREEN}   Copied.${ENDCOLOR}"
 
 install_shell_function() {
     echo "         Adding to() function to $FILE..."
