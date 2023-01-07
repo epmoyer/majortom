@@ -231,12 +231,9 @@ func saveConfig(config ConfigDataT) {
 func getConfigPath() string {
 	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
-		colorPrintFLn(
-			colorError,
-			"Environment variable %s is not set. Set it to the path of to's config json.",
-			ENV_VAR_CONFIG)
-		os.Exit(EXIT_CODE_FAIL)
+		path = DEFAULT_CONFIG_PATH
 	}
+	path = expandHome(path)
 	return path
 }
 
