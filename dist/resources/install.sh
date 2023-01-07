@@ -5,7 +5,7 @@ sudo chmod 755 /usr/local/bin/majortom
 
 install_shell_function() {
     echo "         Installing shell function in $FILE..."
-    echo "         (NOT IMPLEMENTED)"
+    cat helper.sh >> $FILE
 }
 
 query_install_shell_function() {

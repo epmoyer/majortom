@@ -16,10 +16,3 @@ do_build darwin amd64 dist/darwin.amd64
 do_build linux amd64 dist/linux.amd64
 
 echo "Done."
-# TARGET_DIR=dist/darwin.amd64
-# GOOS=darwin GOARCH=amd64 go build -o $TARGET_DIR/majortom
-# copy_supporting_files $TARGET_DIR
-
-# TARGET_DIR=dist/linux.amd64
-# GOOS=linux GOARCH=amd64 go build -o $TARGET_DIR/majortom
-# copy_supporting_files $TARGET_DIR
