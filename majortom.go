@@ -36,7 +36,11 @@ var DEFAULT_CONFIG_PATH = "~/.config/majortom/majortom_config.json"
 func main() {
 	flag.Usage = func() {
 		w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
-		fmt.Fprintf(w, "Usage of %s:\n", os.Args[0])
+		executabe := os.Args[0]
+		fmt.Fprintf(w, "Usage of %s:\n", executabe)
+		fmt.Fprintf(w, "%s <shortcut>\n", APP_NAME)
+		fmt.Fprintf(w, "%s [-a|-d] <shortcut>\n", APP_NAME)
+		fmt.Fprintf(w, "%s [-h]\n", APP_NAME)
 		flag.PrintDefaults()
 		fmt.Fprintf(
 			w,
@@ -58,9 +62,9 @@ func main() {
 	optVersion := flag.Bool("version", false,
 		"Show version.")
 	optAdd := flag.Bool("a", false,
-		"Add current path (as requested shortcut).")
+		"Add current directory path as <shortcut>.")
 	optDelete := flag.Bool("d", false,
-		"Delete requested shortcut.")
+		"Delete <shortcut>.")
 	flag.Parse()
 
 	if *optVersion {
