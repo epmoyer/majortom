@@ -46,6 +46,5 @@ process_shell_script () {
 echo "Adding to() function to shell script..."
 process_shell_script ~/.bashrc
 process_shell_script ~/.zshrc
-process_shell_script ~/dne
 
 echo "Done."
