@@ -27,6 +27,8 @@ var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
 var styleError = color.HEXStyle("#ff4040")
 
+var colorError = "#ff4040"
+
 var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
 
@@ -128,8 +130,12 @@ func getPath(config ConfigDataT, shortcut string) string {
 		}
 	}
 	if len(paths) == 0 {
-		styleError.Printf(
-			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n",
+		// styleError.Printf(
+		// 	"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n",
+		// 	shortcut)
+		colorPrintFLn(
+			colorError,
+			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
 			shortcut)
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -232,9 +238,19 @@ func saveConfig(config ConfigDataT) {
 func getConfigPath() string {
 	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
-		styleError.Printf(
-			"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG)
+		// styleError.Printf(
+		// 	"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG)
+		colorPrintFLn(
+			colorError,
+			"Environment variable %s is not set. Set it to the path of to's config json.",
+			ENV_VAR_CONFIG)
 		os.Exit(EXIT_CODE_FAIL)
 	}
 	return path
+}
+
+func colorPrintFLn(hexColor string, format string, args ...interface{}) {
+	// content := fmt.Sprintf(format, args...)
+	style := color.HEXStyle(hexColor)
+	fmt.Printf("%s\n", style.Sprintf(format, args...))
 }

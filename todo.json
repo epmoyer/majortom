@@ -88,6 +88,15 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
+                },
+                {
+                    "name": "styleError.Printf() newline issue",
+                    "id": 107,
+                    "id_labels": [],
+                    "description": "Newline inside style causes extra newline when echoed by bash script.\nNeed a wrapper function that in add the final newline OUTSIDE the final style reset escape sequence.",
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
                 }
             ]
         },

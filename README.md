@@ -21,7 +21,7 @@ to () {
         # Print the result if non-blank
         if test "$result"
         then
-            echo -n "$result"
+            echo "$result"
         fi
     fi
 }
