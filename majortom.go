@@ -26,6 +26,10 @@ var stylePath = color.HEXStyle("#00ffff")
 var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
 
+var ColorShortcut = "#ff8000"
+var ColorPath = "#00ffff"
+var ColorPathDNE = "#808080"
+var ColorCurrent = "#ffff00"
 var colorError = "#ff4040"
 
 var EXIT_CODE_SUCCESS = 0
@@ -139,7 +143,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 	if len(paths) > 1 {
 		message := "Matched multiple shortcuts: "
 		for i, key := range matched_keys {
-			message += styleShortcut.Sprintf("%s", key)
+			message += colorSprintF(ColorShortcut, "%s", key)
 			if i < len(matched_keys)-1 {
 				message += ", "
 			}
@@ -253,4 +257,14 @@ func getConfigPath() string {
 func colorPrintFLn(hexColor string, format string, args ...interface{}) {
 	style := color.HEXStyle(hexColor)
 	fmt.Printf("%s\n", style.Sprintf(format, args...))
+}
+
+func colorPrintF(hexColor string, format string, args ...interface{}) {
+	style := color.HEXStyle(hexColor)
+	style.Printf(format, args...)
+}
+
+func colorSprintF(hexColor string, format string, args ...interface{}) string {
+	style := color.HEXStyle(hexColor)
+	return style.Sprintf(format, args...)
 }
