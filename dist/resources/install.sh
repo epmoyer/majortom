@@ -4,8 +4,9 @@ sudo cp majortom /usr/local/bin
 sudo chmod 755 /usr/local/bin/majortom
 
 install_shell_function() {
-    echo "         Installing shell function in $FILE..."
+    echo "         Adding to() function to $FILE..."
     cat helper.sh >> $FILE
+    echo "         Added."
 }
 
 query_install_shell_function() {
