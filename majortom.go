@@ -25,7 +25,6 @@ var styleShortcut = color.HEXStyle("#ff8000")
 var stylePath = color.HEXStyle("#00ffff")
 var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
-var styleError = color.HEXStyle("#ff4040")
 
 var colorError = "#ff4040"
 
@@ -236,8 +235,6 @@ func saveConfig(config ConfigDataT) {
 func getConfigPath() string {
 	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
-		// styleError.Printf(
-		// 	"Environment variable %s is not set. Set it to the path of to's config json.\n", ENV_VAR_CONFIG)
 		colorPrintFLn(
 			colorError,
 			"Environment variable %s is not set. Set it to the path of to's config json.",
@@ -247,8 +244,13 @@ func getConfigPath() string {
 	return path
 }
 
+// Print colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
+//
+// The output of this application is captured and echoed by a shell script, and the shell doesn't
+// recognize that echo'd content ended in a linefeed when that linefeed occurs BEFORE the
+// escape codes used to clear the color.  To fix that we use this wrapper function which will
+// inject a terminating linefeed AFTER the color reset escape code.
 func colorPrintFLn(hexColor string, format string, args ...interface{}) {
-	// content := fmt.Sprintf(format, args...)
 	style := color.HEXStyle(hexColor)
 	fmt.Printf("%s\n", style.Sprintf(format, args...))
 }
