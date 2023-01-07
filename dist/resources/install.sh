@@ -11,9 +11,11 @@ install_shell_function() {
 query_install_shell_function() {
     read -p "      Add to() function to $FILE ? " -n 1 -r
     echo
-    if [[ ! $REPLY = ^[Yy]$ ]]
+    if [[ $REPLY =~ ^[Yy]$ ]]
     then
         install_shell_function $FILE
+    else
+        echo "         (Skipped)"
     fi
 }
 
@@ -31,7 +33,7 @@ check_shell_script () {
 
 process_shell_script () {
     FILE=$1
-    echo "   Checking for $FILE..."
+    echo "   Looking for $FILE..."
     if test -f "$FILE"; then
         echo "      Found."
         check_shell_script $FILE
