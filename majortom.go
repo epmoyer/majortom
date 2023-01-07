@@ -53,7 +53,6 @@ func main() {
 
 		configPath = getConfigPath()
 		fmt.Fprintf(w, "   Expecting config file to be at: %s\n", configPath)
-
 	}
 
 	optVersion := flag.Bool("version", false,
