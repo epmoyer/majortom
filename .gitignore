@@ -5,3 +5,6 @@ untracked/
 # Binaries
 majortom
 majortom.linux.amd64
+
+# Distribution content
+dist/
