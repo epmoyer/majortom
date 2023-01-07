@@ -14,7 +14,7 @@ import (
 	"github.com/gookit/color"
 )
 
-const APP_NAME = "to"
+const APP_NAME = "majortom"
 const APP_VERSION = "1.1.0"
 
 type ConfigDataT struct {
@@ -30,7 +30,7 @@ var styleError = color.HEXStyle("#ff4040")
 var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
 
-var ENV_VAR_CONFIG = "TO_CONFIG_DB"
+var ENV_VAR_CONFIG = "MAJORTOM_CONFIG"
 
 var CONFIG_FILENAME = "to_shortcuts.json"
 
