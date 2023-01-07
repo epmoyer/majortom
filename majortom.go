@@ -26,10 +26,10 @@ var stylePath = color.HEXStyle("#00ffff")
 var stylePathDNE = color.HEXStyle("#808080")
 var styleCurrent = color.HEXStyle("#ffff00")
 
-var ColorShortcut = "#ff8000"
-var ColorPath = "#00ffff"
-var ColorPathDNE = "#808080"
-var ColorCurrent = "#ffff00"
+var colorShortcut = "#ff8000"
+var colorPath = "#00ffff"
+var colorPathDNE = "#808080"
+var colorCurrent = "#ffff00"
 var colorError = "#ff4040"
 
 var EXIT_CODE_SUCCESS = 0
@@ -143,7 +143,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 	if len(paths) > 1 {
 		message := "Matched multiple shortcuts: "
 		for i, key := range matched_keys {
-			message += colorSprintF(ColorShortcut, "%s", key)
+			message += colorSprintF(colorShortcut, "%s", key)
 			if i < len(matched_keys)-1 {
 				message += ", "
 			}
@@ -176,21 +176,17 @@ func showShortcuts(config ConfigDataT) {
 		path := config.Locations[shortcut]
 		pathAbsolute := expandHome(path)
 		if pathAbsolute == currentPath {
-			colorPrintF(ColorCurrent, "▶ %-*s ", maxLen, shortcut)
+			colorPrintF(colorCurrent, "▶ %-*s ", maxLen, shortcut)
 		} else {
-			colorPrintF(ColorShortcut, "  %-*s ", maxLen, shortcut)
+			colorPrintF(colorShortcut, "  %-*s ", maxLen, shortcut)
 		}
 		if _, err := os.Stat(pathAbsolute); !os.IsNotExist(err) {
 			// Path exists
-			stylePath.Printf("%s", path)
+			colorPrintFLn(colorPath, "%s", path)
 		} else {
 			// Path does not exist
-			stylePathDNE.Printf("%s", path)
+			colorPrintFLn(colorPathDNE, "%s", path)
 		}
-		// We cannot include the \n in the final style .Printf() above, otherwise the \n occurs
-		// before the subsequent escape code for clearing the style, which causes an additional
-		// linefeed to be printed when we echo the output text in bash/zsh.
-		fmt.Print("\n")
 	}
 }
 
