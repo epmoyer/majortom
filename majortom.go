@@ -31,17 +31,18 @@ var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
 
 var ENV_VAR_CONFIG = "MAJORTOM_CONFIG"
-
-var CONFIG_FILENAME = "to_shortcuts.json"
+var DEFAULT_CONFIG_PATH = "~/.config/majortom/majortom_config.json"
 
 func main() {
 	flag.Usage = func() {
 		w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
 		fmt.Fprintf(w, "Usage of %s:\n", os.Args[0])
 		flag.PrintDefaults()
-		fmt.Fprintf(w,
-			"NOTE:\n   Set the environment variable %s to point to to's configuration json file.\n",
-			ENV_VAR_CONFIG)
+		fmt.Fprintf(
+			w,
+			"NOTE:\n   Set the environment variable %s to point to %s's configuration file.\n"+
+				"   If not set, the configuration file path will default to: %s\n",
+			ENV_VAR_CONFIG, APP_NAME, DEFAULT_CONFIG_PATH)
 		fmt.Fprintf(w, "   Currently %s = \"%s\"\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
 	}
 
