@@ -2,7 +2,7 @@
     "version": 1,
     "app_id": "trellis",
     "board": {
-        "name": "To (path shortcut manager)",
+        "name": "MajorTom",
         "preferences": {
             "backgroundColor": "#6a4c80"
         }
@@ -75,6 +75,14 @@
                 {
                     "name": "Add description of shell to() dependence to usage.",
                     "id": 108,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
+                    "name": "auto-package installers into .zip and .tgz for release",
+                    "id": 109,
                     "id_labels": [],
                     "description": "",
                     "due": null,
