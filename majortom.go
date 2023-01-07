@@ -239,6 +239,18 @@ func getConfigPath() string {
 	return path
 }
 
+// Print colorized formatted string
+func colorPrintF(hexColor string, format string, args ...interface{}) {
+	style := color.HEXStyle(hexColor)
+	style.Printf(format, args...)
+}
+
+// String print a colorized formatted string
+func colorSprintF(hexColor string, format string, args ...interface{}) string {
+	style := color.HEXStyle(hexColor)
+	return style.Sprintf(format, args...)
+}
+
 // Print colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
 //
 // The output of this application is captured and echoed by a shell script, and the shell doesn't
@@ -248,14 +260,4 @@ func getConfigPath() string {
 func colorPrintFLn(hexColor string, format string, args ...interface{}) {
 	style := color.HEXStyle(hexColor)
 	fmt.Printf("%s\n", style.Sprintf(format, args...))
-}
-
-func colorPrintF(hexColor string, format string, args ...interface{}) {
-	style := color.HEXStyle(hexColor)
-	style.Printf(format, args...)
-}
-
-func colorSprintF(hexColor string, format string, args ...interface{}) string {
-	style := color.HEXStyle(hexColor)
-	return style.Sprintf(format, args...)
 }
