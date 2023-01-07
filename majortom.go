@@ -43,7 +43,17 @@ func main() {
 			"NOTE:\n   Set the environment variable %s to point to %s's configuration file.\n"+
 				"   If not set, the configuration file path will default to: %s\n",
 			ENV_VAR_CONFIG, APP_NAME, DEFAULT_CONFIG_PATH)
-		fmt.Fprintf(w, "   Currently %s = \"%s\"\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
+
+		configPath := os.Getenv(ENV_VAR_CONFIG)
+		if configPath == "" {
+			fmt.Fprintf(w, "   Currently %s is not set.\n", ENV_VAR_CONFIG)
+		} else {
+			fmt.Fprintf(w, "   Currently %s is set to \"%s\".\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
+		}
+
+		configPath = getConfigPath()
+		fmt.Fprintf(w, "   Expecting config file to be at: %s\n", configPath)
+
 	}
 
 	optVersion := flag.Bool("version", false,
