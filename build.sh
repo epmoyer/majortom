@@ -17,7 +17,8 @@ do_build () {
     cp dist/resources/helper.sh $TARGET_DIR
 
     # Build release
-    zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR. -x "*.gitkeep" -x "*.DS_Store"
+    echo "Compressing release..."
+    zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > /dev/null
 }
 
 do_build darwin amd64 macos.amd64
