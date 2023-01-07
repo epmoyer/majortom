@@ -1,6 +1,7 @@
 #/bin/bash
 
 RED="\033[31m"
+YELLOW="\033[33m"
 GREEN="\033[32m"
 ENDCOLOR="\033[0m"
 
@@ -12,7 +13,7 @@ echo "${GREEN}   Copied.${ENDCOLOR}"
 install_shell_function() {
     echo "         Adding to() function to $FILE..."
     cat helper.sh >> $FILE
-    echo "         Added."
+    echo "         ${GREEN}Added.${ENDCOLOR}"
 }
 
 query_install_shell_function() {
@@ -22,7 +23,7 @@ query_install_shell_function() {
     then
         install_shell_function $FILE
     else
-        echo "         (Skipped)"
+        echo "         ${YELLOW}(Skipped)${ENDCOLOR}"
     fi
 }
 
@@ -31,7 +32,7 @@ check_shell_script () {
     echo "      looking for existing to() function..."
     if grep -Fxq "to () {" $FILE
     then
-        echo "         Found."
+        echo "         ${GREEN}Found.${ENDCOLOR}"
     else
         echo "         Not found."
         query_install_shell_function $FILE
@@ -53,4 +54,4 @@ echo "Adding to() function to shell script..."
 process_shell_script ~/.bashrc
 process_shell_script ~/.zshrc
 
-echo "Done."
+echo "${GREEN}Done.${ENDCOLOR}"
