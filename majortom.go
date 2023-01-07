@@ -21,11 +21,6 @@ type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
 }
 
-var styleShortcut = color.HEXStyle("#ff8000")
-var stylePath = color.HEXStyle("#00ffff")
-var stylePathDNE = color.HEXStyle("#808080")
-var styleCurrent = color.HEXStyle("#ffff00")
-
 var colorShortcut = "#ff8000"
 var colorPath = "#00ffff"
 var colorPathDNE = "#808080"
