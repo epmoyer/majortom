@@ -106,8 +106,9 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	if _, ok := config.Locations[shortcut]; ok {
 		delete(config.Locations, shortcut)
 	} else {
-		styleError.Printf(
-			"Shortcut \"%s\" does not exist.\n",
+		colorPrintFLn(
+			colorError,
+			"Shortcut \"%s\" does not exist.",
 			shortcut)
 		os.Exit(EXIT_CODE_FAIL)
 	}
@@ -130,9 +131,6 @@ func getPath(config ConfigDataT, shortcut string) string {
 		}
 	}
 	if len(paths) == 0 {
-		// styleError.Printf(
-		// 	"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.\n",
-		// 	shortcut)
 		colorPrintFLn(
 			colorError,
 			"No match found for shortcut \"%s\". Run \"to\" with no arguments for a list of shortcuts.",
