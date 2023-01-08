@@ -186,6 +186,12 @@ func showShortcuts(config ConfigDataT) {
 		}
 		shortcuts = append(shortcuts, shortcut)
 	}
+
+	if len(shortcuts) == 0 {
+		fmt.Println("No shortcuts exist yet.  Use the \"-a <shortcut>\" command to create your first shortcut.")
+		return
+	}
+
 	fmt.Println("Available shortcuts:")
 	sort.Strings(shortcuts)
 	for _, shortcut := range shortcuts {
@@ -273,6 +279,7 @@ func initConfig() {
 	}
 
 	config := ConfigDataT{}
+	config.Locations = map[string]string{}
 	saveConfig(config)
 	fmt.Printf("The %s config file (%s) has been initialized.\n", APP_NAME, pathConfig)
 }
