@@ -65,11 +65,17 @@ func main() {
 		"Add current directory path as <shortcut>.")
 	optDelete := flag.Bool("d", false,
 		"Delete <shortcut>.")
+	optInit := flag.Bool("init", false,
+		"Initialize (create) config file. (Only if config does not exist)")
 	flag.Parse()
 
 	if *optVersion {
 		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
 		os.Exit(EXIT_CODE_SUCCESS)
+	}
+
+	if *optInit {
+		initConfig()
 	}
 
 	args := flag.Args()
@@ -224,7 +230,6 @@ func loadConfig() ConfigDataT {
 	pathConfig := getConfigPath()
 
 	if _, err := os.Stat(pathConfig); os.IsNotExist(err) {
-		// Path exists
 		colorPrintFLn(
 			colorError,
 			"The %s config file (%s) does not exist.",
@@ -250,6 +255,22 @@ func saveConfig(config ConfigDataT) {
 	pathConfig := getConfigPath()
 	file, _ := json.MarshalIndent(config, "", "    ")
 	_ = ioutil.WriteFile(pathConfig, file, 0644)
+}
+
+func initConfig() {
+	pathConfig := getConfigPath()
+
+	if _, err := os.Stat(pathConfig); !os.IsNotExist(err) {
+		colorPrintFLn(
+			colorError,
+			"The %s config file (%s) already exists. The -init option cannot be used to reinitialize"+
+				" an existing config file. If you really want to re-create the config file then"+
+				" delete it manually and re-run this command.",
+			APP_NAME,
+			pathConfig)
+		os.Exit(EXIT_CODE_FAIL)
+	}
+	fmt.Println("Not yet implemented.")
 }
 
 func getConfigPath() string {
