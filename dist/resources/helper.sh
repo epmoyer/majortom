@@ -1,13 +1,12 @@
 
-# -------------------------------------------------------------
-# majortom
-# -------------------------------------------------------------
+# majortom:start ---------------------------------------------------------------
 
 # To override the default config file name/location uncomment the following line
 # and point it to your desired config file. 
 # export MAJORTOM_CONFIG="~/.config/majortom/majortom_config.json"
 
-# Invocation function
+# The to() function runs majortom (with all supplied arguments) and if majortom
+# returns a path then cd's to that path.
 to () {
     result=$(majortom $@ )
     if [[ $result = :* ]]
@@ -24,4 +23,4 @@ to () {
         fi
     fi
 }
-# -------------------------------------------------------------
+# majortom:end -----------------------------------------------------------------
