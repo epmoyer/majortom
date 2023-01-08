@@ -222,6 +222,17 @@ func abbreviateHome(path string) string {
 
 func loadConfig() ConfigDataT {
 	pathConfig := getConfigPath()
+
+	if _, err := os.Stat(pathConfig); os.IsNotExist(err) {
+		// Path exists
+		colorPrintFLn(
+			colorError,
+			"The %s config file (%s) does not exist.",
+			APP_NAME,
+			pathConfig)
+		os.Exit(EXIT_CODE_FAIL)
+	}
+
 	jsonFile, err := os.Open(pathConfig)
 	if err != nil {
 		fmt.Println(err)
