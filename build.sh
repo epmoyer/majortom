@@ -26,12 +26,12 @@ do_build () {
     if [ "$IMAGE_TYPE" = "zip" ]; then
         TARGET_ARCHIVE=dist/images/$3.zip
         echo "Building compressed image $TARGET_ARCHIVE..."
-        zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > /dev/null
+        zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > 
     else
         TARGET_ARCHIVE=dist/images/$3.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
         #tar -cvzf dist/images/linux.amd64.tgz -C dist/linux.amd64 --exclude=.gitkeep --exclude=.DS_Store .
-        tar -cvzf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
+        tar -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
         echo "(TAR NOT YET IMPLEMENTED)"
     fi
     echo ""
