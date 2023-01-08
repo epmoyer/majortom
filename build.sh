@@ -30,6 +30,8 @@ do_build () {
     else
         TARGET_ARCHIVE=dist/images/$3.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
+        #tar -cvzf dist/images/linux.amd64.tgz -C dist/linux.amd64 --exclude=.gitkeep --exclude=.DS_Store .
+        tar -cvzf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
         echo "(TAR NOT YET IMPLEMENTED)"
     fi
     echo ""
@@ -38,5 +40,4 @@ do_build () {
 do_build darwin amd64 macos.amd64 zip
 do_build linux amd64 linux.amd64 tar
 
-# echo "-----------------------"
 echo "${GREEN}Done.${ENDCOLOR}"
