@@ -30,11 +30,11 @@ do_build () {
 
     # Build release
     if [ "$IMAGE_TYPE" = "zip" ]; then
-        TARGET_ARCHIVE=dist/images/$APP_NAME.$APP_VERSION.$TARGET_NAME.zip
+        TARGET_ARCHIVE=dist/images/${APP_NAME}_$APP_VERSION.$TARGET_NAME.zip
         echo "Building compressed image $TARGET_ARCHIVE..."
         zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > /dev/null
     else
-        TARGET_ARCHIVE=dist/images/$APP_NAME.$APP_VERSION.$TARGET_NAME.tgz
+        TARGET_ARCHIVE=dist/images/${APP_NAME}_$APP_VERSION.$TARGET_NAME.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
         tar -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
     fi
