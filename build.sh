@@ -1,4 +1,7 @@
 #/bin/bash
+GREEN=$'\033[32m'
+CYAN=$'\033[36m'
+ENDCOLOR=$'\033[0m'
 
 do_build () {
     USE_GOOS=$1
@@ -8,7 +11,7 @@ do_build () {
 
     TARGET_DIR=dist/$3
 
-    echo "----------------------- $USE_GOOS:$USE_GOARCH"
+    echo "${CYAN}$USE_GOOS:$USE_GOARCH${ENDCOLOR} -------------------------------------------"
 
     echo "Building into $TARGET_DIR..."
 
@@ -29,11 +32,11 @@ do_build () {
         echo "Building compressed image $TARGET_ARCHIVE..."
         echo "(TAR NOT YET IMPLEMENTED)"
     fi
-
+    echo ""
 }
 
 do_build darwin amd64 macos.amd64 zip
 do_build linux amd64 linux.amd64 tar
 
-echo "-----------------------"
-echo "Done."
+# echo "-----------------------"
+echo "${GREEN}Done.${ENDCOLOR}"
