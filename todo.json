@@ -65,13 +65,20 @@
             "id": 2,
             "cards": [
                 {
-                    "name": "Add description of shell to() dependence to usage.",
+                    "name": "Describe shell to() function dependence in usage.",
                     "id": 108,
                     "id_labels": [],
-                    "description": "",
+                    "description": null,
                     "due": null,
-                    "due_complete": false
-                },
+                    "due_complete": false,
+                    "repeat": null
+                }
+            ]
+        },
+        {
+            "name": "Doing",
+            "id": 3,
+            "cards": [
                 {
                     "name": "auto-package installers into .zip and .tgz for release",
                     "id": 109,
@@ -83,8 +90,8 @@
             ]
         },
         {
-            "name": "Doing",
-            "id": 3,
+            "name": "Done",
+            "id": 4,
             "cards": [
                 {
                     "name": "Show message if no shortcuts exist",
@@ -93,13 +100,23 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
-                }
-            ]
-        },
-        {
-            "name": "Done",
-            "id": 4,
-            "cards": [
+                },
+                {
+                    "name": "Suggest -init if config does not exist.",
+                    "id": 110,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
+                    "name": "add an -init command to create db if it doesn't exist",
+                    "id": 104,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
                 {
                     "name": "styleError.Printf() newline issue",
                     "id": 107,
@@ -151,22 +168,6 @@
                 {
                     "name": "Consider adding .PrintFStderr method to existing HexStyle object.",
                     "id": 101,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
-                    "name": "add an -init command to create db if it doesn't exist",
-                    "id": 104,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
-                    "name": "Suggest -init if config does not exist.",
-                    "id": 110,
                     "id_labels": [],
                     "description": "",
                     "due": null,
