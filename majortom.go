@@ -76,6 +76,7 @@ func main() {
 
 	if *optInit {
 		initConfig()
+		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
 	args := flag.Args()
@@ -270,7 +271,10 @@ func initConfig() {
 			pathConfig)
 		os.Exit(EXIT_CODE_FAIL)
 	}
-	fmt.Println("Not yet implemented.")
+
+	config := ConfigDataT{}
+	saveConfig(config)
+	fmt.Printf("The %s config file (%s) has been initialized.\n", APP_NAME, pathConfig)
 }
 
 func getConfigPath() string {
