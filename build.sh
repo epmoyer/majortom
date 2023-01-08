@@ -7,9 +7,10 @@ do_build () {
     IMAGE_TYPE=$4
 
     TARGET_DIR=dist/$3
-    TARGET_ARCHIVE=dist/images/$3.zip
 
-    echo "Building for $USE_GOOS:$USE_GOARCH into $TARGET_DIR..."
+    echo "----------------------- $USE_GOOS:$USE_GOARCH"
+
+    echo "Building into $TARGET_DIR..."
 
     # Build executable
     GOOS=$USE_GOOS GOARCH=$USE_GOARCH go build -o $TARGET_DIR/majortom
@@ -19,10 +20,13 @@ do_build () {
     cp dist/resources/helper.sh $TARGET_DIR
 
     # Build release
-    echo "Building compressed image $TARGET_ARCHIVE..."
     if [ "$IMAGE_TYPE" = "zip" ]; then
+        TARGET_ARCHIVE=dist/images/$3.zip
+        echo "Building compressed image $TARGET_ARCHIVE..."
         zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > /dev/null
     else
+        TARGET_ARCHIVE=dist/images/$3.tgz
+        echo "Building compressed image $TARGET_ARCHIVE..."
         echo "(TAR NOT YET IMPLEMENTED)"
     fi
 
@@ -31,4 +35,5 @@ do_build () {
 do_build darwin amd64 macos.amd64 zip
 do_build linux amd64 linux.amd64 tar
 
+echo "-----------------------"
 echo "Done."
