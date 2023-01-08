@@ -3,6 +3,12 @@ GREEN=$'\033[32m'
 CYAN=$'\033[36m'
 ENDCOLOR=$'\033[0m'
 
+# Extract the app name and version numberfrom the main go file by brute force
+APP_VERSION=`awk '/^const APP_VERSION/{print $4}' majortom.go | sed -e 's/"//g'`
+APP_NAME=`awk '/^const APP_NAME/{print $4}' majortom.go | sed -e 's/"//g'`
+
+echo "Building $APP_NAME version $APP_VERSION..."
+
 do_build () {
     USE_GOOS=$1
     USE_GOARCH=$2
@@ -24,15 +30,13 @@ do_build () {
 
     # Build release
     if [ "$IMAGE_TYPE" = "zip" ]; then
-        TARGET_ARCHIVE=dist/images/$3.zip
+        TARGET_ARCHIVE=dist/images/$APP_NAME.$APP_VERSION.$TARGET_NAME.zip
         echo "Building compressed image $TARGET_ARCHIVE..."
-        zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > 
+        zip -vrj -FS $TARGET_ARCHIVE $TARGET_DIR -x "*.gitkeep" -x "*.DS_Store" > /dev/null
     else
-        TARGET_ARCHIVE=dist/images/$3.tgz
+        TARGET_ARCHIVE=dist/images/$APP_NAME.$APP_VERSION.$TARGET_NAME.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
-        #tar -cvzf dist/images/linux.amd64.tgz -C dist/linux.amd64 --exclude=.gitkeep --exclude=.DS_Store .
         tar -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
-        echo "(TAR NOT YET IMPLEMENTED)"
     fi
     echo ""
 }
