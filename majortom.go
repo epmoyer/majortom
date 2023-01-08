@@ -233,7 +233,7 @@ func loadConfig() ConfigDataT {
 	if _, err := os.Stat(pathConfig); os.IsNotExist(err) {
 		colorPrintFLn(
 			colorError,
-			"The %s config file (%s) does not exist.",
+			"The %s config file (%s) does not exist.  You can create it using the -init command.",
 			APP_NAME,
 			pathConfig)
 		os.Exit(EXIT_CODE_FAIL)
