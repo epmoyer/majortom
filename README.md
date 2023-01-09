@@ -6,16 +6,27 @@ MajorTom is here to get you where you need to go.
 
 ![](docs/img/majortom_intro_screenshot.png)
 
-### Navigate to a shortcut
-`to <shortcut>`
+### List shortcuts
+Use `to` (with no arguments) to list your current shortcuts.
+![](docs/img/majortom_get_shortcuts.png)
 
-You can also abbreviate the shortcut name (e.g. `to he` for `to helloworld`).
+### Navigate
+Use `to <shortcut>` to navigate (change directory) to an existing shortcut.
 
-### Add a shortcut (to the current directory)
-`to -a <shortcut>`
+You can also abbreviate the shortcut name (e.g. `to apa` for `apache2`).
+![](docs/img/majortom_cd_to_apache.png)
 
-### Delete an existing shortcut
-`to -d <shrotcut>`
+### See where you are
+When you run `to` (with no arguments) and you are in a directory for which you have a shortcut, that shortcut will be indicated (yellow, with marker).
+
+![](docs/img/majortom_show_current.png)
+### Add a shortcut
+Use `to -a <shortcut>` to add a shortcut to the current working directory.
+![](docs/img/majortom_add_shortcut.png)
+
+### Delete a shortcut
+Use `to -d <shortcut>` to delete an existing shortcut.
+![](docs/img/majortom_delete_shortcut.png)
 
 
 ## Installation
@@ -79,4 +90,12 @@ A typical config file containing a few shortcuts might look like this:
 ## Build
 
 ## How it works
+The `to` command (defined in `/dist/resources/shell_init_snippet.sh`) is a shell script function which gets added to your shell init script (`.bahsrc`, `.zshrc`).
 
+`to` calls `majortom` (which gets installed in `/usr/local/bin/majortom`), and if `majortom` returns a path (which it will prefix with `:`) then `to` will `cd` to it.
+
+You can see this behavior if you run `majortom` directly...
+![](docs/img/majortom_direct_execution_apache.png)
+
+...versus running it via `to`...
+![](docs/img/majortom_cd_to_apache.png)

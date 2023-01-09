@@ -65,6 +65,14 @@
             "id": 2,
             "cards": [
                 {
+                    "name": "installer should run the -init. &nbsp;Ask first?",
+                    "id": 117,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
                     "name": "Describe shell to() function dependence in usage.",
                     "id": 108,
                     "id_labels": [],
@@ -91,6 +99,22 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
+                },
+                {
+                    "name": "Fully comment.",
+                    "id": 115,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
+                    "name": "Code review.",
+                    "id": 116,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
@@ -99,12 +123,13 @@
             "id": 3,
             "cards": [
                 {
-                    "name": "Add uninstall script.",
+                    "name": "Add uninstall script?",
                     "id": 114,
                     "id_labels": [],
-                    "description": "",
+                    "description": null,
                     "due": null,
-                    "due_complete": false
+                    "due_complete": false,
+                    "repeat": null
                 }
             ]
         },
