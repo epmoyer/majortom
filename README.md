@@ -23,7 +23,14 @@ You can also abbreviate the shortcut name (e.g. `to he` for `to helloworld`).
 ### From Source
 
 ```bash
-export MAJORTOM_CONFIG="~/.config/majortom/majortom_config.json"
+# majortom:start ---------------------------------------------------------------
+
+# To override the default config file name/location uncomment the following line
+# and point it to your desired config file. 
+# export MAJORTOM_CONFIG="~/.config/majortom/majortom_config.json"
+
+# The to() function runs majortom (with all supplied arguments) and if majortom
+# returns a path then cd's to that path.
 to () {
     result=$(majortom $@ )
     if [[ $result = :* ]]
@@ -40,6 +47,7 @@ to () {
         fi
     fi
 }
+# majortom:end -----------------------------------------------------------------
 ```
 
 ## How to Use
@@ -51,6 +59,20 @@ By default, MajorTom's config file location defaults to `~/.config/majortom/majo
 If you don't yet have a config file, you can create one by running `majortom -init`, which will create a new (blank) config file at the currently configured location.
 
 The `-init` command will never erase/overwrite/clear an existing config file.
+
+A typical config file containing a few shortcuts might look like this:
+
+```json
+{
+    "locations": {
+        "apache": "/var/log/apache2",
+        "dne": "~/this/path/does/not/exist",
+        "hello": "~/code/golang/helloworld",
+        "launch": "~/Library/Preferences/com.apple.LaunchServices",
+        "my": "~/code/golang/myproject"
+    }
+}
+```
 
 ## Build
 

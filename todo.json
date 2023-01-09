@@ -83,6 +83,14 @@
                     "due": null,
                     "due_complete": false,
                     "repeat": null
+                },
+                {
+                    "name": "Support 256 color and no color. 16?",
+                    "id": 113,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
