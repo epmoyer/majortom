@@ -15,7 +15,7 @@ do_build () {
     TARGET_NAME=$3
     IMAGE_TYPE=$4
 
-    TARGET_DIR=dist/$3
+    TARGET_DIR=dist/builds/$3
 
     echo "${CYAN}$USE_GOOS:$USE_GOARCH${ENDCOLOR} -------------------------------------------"
 
