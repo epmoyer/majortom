@@ -99,6 +99,20 @@
             "id": 3,
             "cards": [
                 {
+                    "name": "Add uninstall script.",
+                    "id": 114,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                }
+            ]
+        },
+        {
+            "name": "Testing",
+            "id": 6,
+            "cards": [
+                {
                     "name": "auto-package installers into .zip and .tgz for release",
                     "id": 109,
                     "id_labels": [],
@@ -106,7 +120,8 @@
                     "due": null,
                     "due_complete": false
                 }
-            ]
+            ],
+            "archived": false
         },
         {
             "name": "Done",

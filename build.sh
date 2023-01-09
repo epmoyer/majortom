@@ -41,6 +41,7 @@ do_build () {
     echo ""
 }
 
+# Run builds for all target platforms
 do_build darwin amd64 macos.amd64 zip
 do_build linux amd64 linux.amd64 tar
 
