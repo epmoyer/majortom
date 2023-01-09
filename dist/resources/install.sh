@@ -12,7 +12,7 @@ echo "${GREEN}   Copied.${ENDCOLOR}"
 
 install_shell_function() {
     echo "         Adding to() function to $FILE..."
-    cat helper.sh >> $FILE
+    cat shell_init_snippet.sh >> $FILE
     echo "         ${GREEN}Added.${ENDCOLOR}"
 }
 

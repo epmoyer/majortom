@@ -26,7 +26,7 @@ do_build () {
 
     # Copy supporting files
     cp dist/resources/install.sh $TARGET_DIR
-    cp dist/resources/helper.sh $TARGET_DIR
+    cp dist/resources/shell_init_snippet.sh $TARGET_DIR
 
     # Build release
     if [ "$IMAGE_TYPE" = "zip" ]; then
