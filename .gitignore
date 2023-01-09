@@ -9,4 +9,5 @@ majortom
 majortom.linux.amd64
 
 # Distribution content
-dist/
+dist/builds
+dist/images
