@@ -1,6 +1,8 @@
 ![](docs/img/majortom_banner.png)
 
-MajorTom is a delightful command line utility for navigating between file path shortcuts. MajorTom is here to get you where you need to go.
+MajorTom is a delightful command line utility for navigating between file path shortcuts.
+
+MajorTom is here to get you where you need to go.
 
 ![](docs/img/majortom_intro_screenshot.png)
 
