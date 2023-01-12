@@ -28,7 +28,7 @@ type ColorT struct {
 
 var colorShortcut = ColorT{
 	colorRGB: *color.HEXStyle("#ff8000"),
-	color16:  color.Magenta,
+	color16:  color.Yellow,
 	color256: color.C256(208), // Orange
 }
 var colorPath = ColorT{
@@ -43,7 +43,7 @@ var colorPathDNE = ColorT{
 }
 var colorCurrent = ColorT{
 	colorRGB: *color.HEXStyle("#ffff00"),
-	color16:  color.Yellow,
+	color16:  color.Magenta,
 	color256: color.C256(190), // Yellow
 }
 var colorError = ColorT{
@@ -72,9 +72,10 @@ func main() {
 		w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
 		executable := os.Args[0]
 		fmt.Fprintf(w, "Usage of %s:\n", executable)
-		fmt.Fprintf(w, "%s <shortcut>\n", APP_NAME)
-		fmt.Fprintf(w, "%s [-a|-d] <shortcut>\n", APP_NAME)
-		fmt.Fprintf(w, "%s [-h]\n", APP_NAME)
+		fmt.Fprintf(w, "%s [-color=<color mode>|-no-color] <shortcut>\n", APP_NAME)
+		fmt.Fprintf(w, "%s [-color=<color mode>|-no-color] [-a|-d] <shortcut>\n", APP_NAME)
+		fmt.Fprintf(w, "%s -h\n", APP_NAME)
+		fmt.Fprintf(w, "%s -init\n", APP_NAME)
 		flag.PrintDefaults()
 		fmt.Fprintf(
 			w,
@@ -104,7 +105,7 @@ func main() {
 	optNoColor := flag.Bool("no-color", false,
 		"Disable colorization")
 	optColor := flag.String("color", "16m",
-		"Set color mode (16, 256, 16m")
+		"Set color mode. Can be set to any of: 16, 256, 16m.")
 	flag.Parse()
 
 	setColorMode(*optNoColor, *optColor)
