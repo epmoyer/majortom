@@ -11,9 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/efekarakus/termcolor"
 	"github.com/gookit/color"
-	"github.com/jwalton/go-supportscolor"
 )
 
 const APP_NAME = "majortom"
@@ -49,8 +47,10 @@ var colorError = ColorT{
 }
 
 const (
-	ColorModeRGB = iota
-	ColorMode16
+	ColorMode16 = iota
+	ColorMode256
+	ColorMode16m
+	ColorModeNone
 )
 
 var colorMode int = ColorMode16
@@ -95,9 +95,13 @@ func main() {
 		"Delete <shortcut>.")
 	optInit := flag.Bool("init", false,
 		"Initialize (create) config file. (Only if config does not exist)")
+	optNoColor := flag.Bool("no-color", false,
+		"Disable colorization")
+	optColor := flag.String("color", "16m",
+		"Set color mode (16, 256, 16m")
 	flag.Parse()
 
-	detectColorMode()
+	setColorMode(*optNoColor, *optColor)
 
 	if *optVersion {
 		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
@@ -139,39 +143,18 @@ func main() {
 	os.Exit(EXIT_CODE_SUCCESS)
 }
 
-func detectColorMode() {
-	fmt.Println("Detecting color modes with supportscolor...")
-
-	if supportscolor.Stdout().SupportsColor {
-		fmt.Println("   Terminal stdout supports color")
+func setColorMode(optNoColor bool, optColor string) {
+	if optNoColor {
+		colorMode = ColorModeNone
+		return
 	}
-
-	if supportscolor.Stdout().Has256 {
-		fmt.Println("   Terminal stdout supports 256 colors")
-	}
-
-	if supportscolor.Stderr().Has16m {
-		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
-	}
-
-	fmt.Println("Detecting color modes with termcolor...")
-	switch l := termcolor.SupportLevel(os.Stderr); l {
-	case termcolor.Level16M:
-		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
-		// wrap text with 24 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
-		fmt.Fprint(os.Stderr, "   \x1b[38;2;25;255;203mSuccess!\n\x1b[0m")
-	case termcolor.Level256:
-		fmt.Println("   Terminal stdout supports 256 colors")
-		// wrap text with 8 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
-		fmt.Fprint(os.Stderr, "   \x1b[38;5;118mSuccess!\n\x1b[0m")
-	case termcolor.LevelBasic:
-		fmt.Println("   Terminal stdout supports color")
-		// wrap text with 3/4 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#3/4_bit
-		fmt.Fprint(os.Stderr, "   \x1b[92mSuccess!\n\x1b[0m")
-	default:
-		fmt.Println("   Terminal stdout does NOT support  color")
-		// no color, return text as is.
-		fmt.Fprint(os.Stderr, "   Success!\n")
+	switch optColor {
+	case "16":
+		colorMode = ColorMode16
+	case "256":
+		colorMode = ColorMode256
+	case "16m":
+		colorMode = ColorMode16m
 	}
 }
 
@@ -361,21 +344,22 @@ func getConfigPath() string {
 
 // Print colorized formatted string
 func colorPrintF(textColor ColorT, format string, args ...interface{}) {
-	if colorMode == ColorModeRGB {
+	// if colorMode == ColorMode16m {
+	// 	style := color.HEXStyle(textColor.colorRGB)
+	// 	style.Printf(format, args...)
+	// } else {
+	// 	textColor.color16.Printf(format, args...)
+	// }
+
+	switch colorMode {
+	case ColorMode16m:
 		style := color.HEXStyle(textColor.colorRGB)
 		style.Printf(format, args...)
-	} else {
+	case ColorMode16:
 		textColor.color16.Printf(format, args...)
+	case ColorModeNone:
+		fmt.Printf(format, args...)
 	}
-}
-
-// String print a colorized formatted string
-func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
-	if colorMode == ColorModeRGB {
-		style := color.HEXStyle(textColor.colorRGB)
-		return style.Sprintf(format, args...)
-	}
-	return textColor.color16.Sprintf(format, args...)
 }
 
 // Print colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
@@ -385,10 +369,35 @@ func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
 // escape codes used to clear the color.  To fix that we use this wrapper function which will
 // inject a terminating linefeed AFTER the color reset escape code.
 func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
-	if colorMode == ColorModeRGB {
+	switch colorMode {
+	case ColorMode16m:
 		style := color.HEXStyle(textColor.colorRGB)
 		fmt.Printf("%s\n", style.Sprintf(format, args...))
-	} else {
+	case ColorMode16:
 		fmt.Printf("%s\n", textColor.color16.Sprintf(format, args...))
+	case ColorModeNone:
+		fmt.Printf("%s\n", fmt.Sprintf(format, args...))
 	}
+
+}
+
+// String print a colorized formatted string
+func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
+	// if colorMode == ColorMode16m {
+	// 	style := color.HEXStyle(textColor.colorRGB)
+	// 	return style.Sprintf(format, args...)
+	// }
+	// return textColor.color16.Sprintf(format, args...)
+
+	switch colorMode {
+	case ColorMode16m:
+		style := color.HEXStyle(textColor.colorRGB)
+		return style.Sprintf(format, args...)
+	case ColorMode16:
+		return textColor.color16.Sprintf(format, args...)
+	default:
+		return fmt.Sprintf(format, args...)
+	}
+
+	// return ""
 }
