@@ -23,27 +23,33 @@ type ConfigDataT struct {
 type ColorT struct {
 	colorRGB string
 	color16  color.Color
+	color256 color.Color256
 }
 
 var colorShortcut = ColorT{
 	colorRGB: "#ff8000",
 	color16:  color.Magenta,
+	color256: color.C256(208), // Orange
 }
 var colorPath = ColorT{
 	colorRGB: "#00ffff",
 	color16:  color.Cyan,
+	color256: color.C256(87), // Cyan
 }
 var colorPathDNE = ColorT{
 	colorRGB: "#808080",
 	color16:  color.Red,
+	color256: color.C256(246), // Gray
 }
 var colorCurrent = ColorT{
 	colorRGB: "#ffff00",
 	color16:  color.Yellow,
+	color256: color.C256(190), // Yellow
 }
 var colorError = ColorT{
 	colorRGB: "#ff4040",
 	color16:  color.Red,
+	color256: color.C256(198), // Red
 }
 
 const (
@@ -350,6 +356,8 @@ func colorPrintF(textColor ColorT, format string, args ...interface{}) {
 		style.Printf(format, args...)
 	case ColorMode16:
 		textColor.color16.Printf(format, args...)
+	case ColorMode256:
+		textColor.color256.Printf(format, args...)
 	case ColorModeNone:
 		fmt.Printf(format, args...)
 	}
@@ -368,6 +376,8 @@ func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
 		fmt.Printf("%s\n", style.Sprintf(format, args...))
 	case ColorMode16:
 		fmt.Printf("%s\n", textColor.color16.Sprintf(format, args...))
+	case ColorMode256:
+		fmt.Printf("%s\n", textColor.color256.Sprintf(format, args...))
 	case ColorModeNone:
 		fmt.Printf("%s\n", fmt.Sprintf(format, args...))
 	}
@@ -382,6 +392,8 @@ func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
 		return style.Sprintf(format, args...)
 	case ColorMode16:
 		return textColor.color16.Sprintf(format, args...)
+	case ColorMode256:
+		return textColor.color256.Sprintf(format, args...)
 	default:
 		return fmt.Sprintf(format, args...)
 	}
