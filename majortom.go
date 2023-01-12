@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/efekarakus/termcolor"
 	"github.com/gookit/color"
 	"github.com/jwalton/go-supportscolor"
 )
@@ -21,12 +22,38 @@ const APP_VERSION = "1.1.1"
 type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
 }
+type ColorT struct {
+	colorRGB string
+	color16  color.Color
+}
 
-var colorShortcut = "#ff8000"
-var colorPath = "#00ffff"
-var colorPathDNE = "#808080"
-var colorCurrent = "#ffff00"
-var colorError = "#ff4040"
+var colorShortcut = ColorT{
+	colorRGB: "#ff8000",
+	color16:  color.Magenta,
+}
+var colorPath = ColorT{
+	colorRGB: "#00ffff",
+	color16:  color.Cyan,
+}
+var colorPathDNE = ColorT{
+	colorRGB: "#808080",
+	color16:  color.Red,
+}
+var colorCurrent = ColorT{
+	colorRGB: "#ffff00",
+	color16:  color.Yellow,
+}
+var colorError = ColorT{
+	colorRGB: "#ff4040",
+	color16:  color.Red,
+}
+
+const (
+	ColorModeRGB = iota
+	ColorMode16
+)
+
+var colorMode int = ColorMode16
 
 var EXIT_CODE_SUCCESS = 0
 var EXIT_CODE_FAIL = 1
@@ -37,8 +64,8 @@ var DEFAULT_CONFIG_PATH = "~/.config/majortom/majortom_config.json"
 func main() {
 	flag.Usage = func() {
 		w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
-		executabe := os.Args[0]
-		fmt.Fprintf(w, "Usage of %s:\n", executabe)
+		executable := os.Args[0]
+		fmt.Fprintf(w, "Usage of %s:\n", executable)
 		fmt.Fprintf(w, "%s <shortcut>\n", APP_NAME)
 		fmt.Fprintf(w, "%s [-a|-d] <shortcut>\n", APP_NAME)
 		fmt.Fprintf(w, "%s [-h]\n", APP_NAME)
@@ -70,6 +97,8 @@ func main() {
 		"Initialize (create) config file. (Only if config does not exist)")
 	flag.Parse()
 
+	detectColorMode()
+
 	if *optVersion {
 		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
 		os.Exit(EXIT_CODE_SUCCESS)
@@ -78,19 +107,6 @@ func main() {
 	if *optInit {
 		initConfig()
 		os.Exit(EXIT_CODE_SUCCESS)
-	}
-
-	fmt.Println("Supported color modes:")
-	if supportscolor.Stdout().SupportsColor {
-		fmt.Println("   Terminal stdout supports color")
-	}
-
-	if supportscolor.Stdout().Has256 {
-		fmt.Println("   Terminal stdout supports 256 colors")
-	}
-
-	if supportscolor.Stderr().Has16m {
-		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
 	}
 
 	args := flag.Args()
@@ -121,6 +137,42 @@ func main() {
 	fmt.Printf(":%s\n", path)
 
 	os.Exit(EXIT_CODE_SUCCESS)
+}
+
+func detectColorMode() {
+	fmt.Println("Detecting color modes with supportscolor...")
+
+	if supportscolor.Stdout().SupportsColor {
+		fmt.Println("   Terminal stdout supports color")
+	}
+
+	if supportscolor.Stdout().Has256 {
+		fmt.Println("   Terminal stdout supports 256 colors")
+	}
+
+	if supportscolor.Stderr().Has16m {
+		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
+	}
+
+	fmt.Println("Detecting color modes with termcolor...")
+	switch l := termcolor.SupportLevel(os.Stderr); l {
+	case termcolor.Level16M:
+		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
+		// wrap text with 24 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
+		fmt.Fprint(os.Stderr, "   \x1b[38;2;25;255;203mSuccess!\n\x1b[0m")
+	case termcolor.Level256:
+		fmt.Println("   Terminal stdout supports 256 colors")
+		// wrap text with 8 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+		fmt.Fprint(os.Stderr, "   \x1b[38;5;118mSuccess!\n\x1b[0m")
+	case termcolor.LevelBasic:
+		fmt.Println("   Terminal stdout supports color")
+		// wrap text with 3/4 bit color https://en.wikipedia.org/wiki/ANSI_escape_code#3/4_bit
+		fmt.Fprint(os.Stderr, "   \x1b[92mSuccess!\n\x1b[0m")
+	default:
+		fmt.Println("   Terminal stdout does NOT support  color")
+		// no color, return text as is.
+		fmt.Fprint(os.Stderr, "   Success!\n")
+	}
 }
 
 func addShortcut(config ConfigDataT, shortcut string) ConfigDataT {
@@ -308,15 +360,22 @@ func getConfigPath() string {
 }
 
 // Print colorized formatted string
-func colorPrintF(hexColor string, format string, args ...interface{}) {
-	style := color.HEXStyle(hexColor)
-	style.Printf(format, args...)
+func colorPrintF(textColor ColorT, format string, args ...interface{}) {
+	if colorMode == ColorModeRGB {
+		style := color.HEXStyle(textColor.colorRGB)
+		style.Printf(format, args...)
+	} else {
+		textColor.color16.Printf(format, args...)
+	}
 }
 
 // String print a colorized formatted string
-func colorSprintF(hexColor string, format string, args ...interface{}) string {
-	style := color.HEXStyle(hexColor)
-	return style.Sprintf(format, args...)
+func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
+	if colorMode == ColorModeRGB {
+		style := color.HEXStyle(textColor.colorRGB)
+		return style.Sprintf(format, args...)
+	}
+	return textColor.color16.Sprintf(format, args...)
 }
 
 // Print colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
@@ -325,7 +384,11 @@ func colorSprintF(hexColor string, format string, args ...interface{}) string {
 // recognize that echo'd content ended in a linefeed when that linefeed occurs BEFORE the
 // escape codes used to clear the color.  To fix that we use this wrapper function which will
 // inject a terminating linefeed AFTER the color reset escape code.
-func colorPrintFLn(hexColor string, format string, args ...interface{}) {
-	style := color.HEXStyle(hexColor)
-	fmt.Printf("%s\n", style.Sprintf(format, args...))
+func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
+	if colorMode == ColorModeRGB {
+		style := color.HEXStyle(textColor.colorRGB)
+		fmt.Printf("%s\n", style.Sprintf(format, args...))
+	} else {
+		fmt.Printf("%s\n", textColor.color16.Sprintf(format, args...))
+	}
 }
