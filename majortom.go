@@ -344,13 +344,6 @@ func getConfigPath() string {
 
 // Print colorized formatted string
 func colorPrintF(textColor ColorT, format string, args ...interface{}) {
-	// if colorMode == ColorMode16m {
-	// 	style := color.HEXStyle(textColor.colorRGB)
-	// 	style.Printf(format, args...)
-	// } else {
-	// 	textColor.color16.Printf(format, args...)
-	// }
-
 	switch colorMode {
 	case ColorMode16m:
 		style := color.HEXStyle(textColor.colorRGB)
@@ -383,12 +376,6 @@ func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
 
 // String print a colorized formatted string
 func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
-	// if colorMode == ColorMode16m {
-	// 	style := color.HEXStyle(textColor.colorRGB)
-	// 	return style.Sprintf(format, args...)
-	// }
-	// return textColor.color16.Sprintf(format, args...)
-
 	switch colorMode {
 	case ColorMode16m:
 		style := color.HEXStyle(textColor.colorRGB)
@@ -398,6 +385,4 @@ func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
 	default:
 		return fmt.Sprintf(format, args...)
 	}
-
-	// return ""
 }
