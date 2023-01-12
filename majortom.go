@@ -21,33 +21,33 @@ type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
 }
 type ColorT struct {
-	colorRGB string
+	colorRGB color.RGBStyle
 	color16  color.Color
 	color256 color.Color256
 }
 
 var colorShortcut = ColorT{
-	colorRGB: "#ff8000",
+	colorRGB: *color.HEXStyle("#ff8000"),
 	color16:  color.Magenta,
 	color256: color.C256(208), // Orange
 }
 var colorPath = ColorT{
-	colorRGB: "#00ffff",
+	colorRGB: *color.HEXStyle("#00ffff"),
 	color16:  color.Cyan,
 	color256: color.C256(87), // Cyan
 }
 var colorPathDNE = ColorT{
-	colorRGB: "#808080",
+	colorRGB: *color.HEXStyle("#808080"),
 	color16:  color.Red,
 	color256: color.C256(246), // Gray
 }
 var colorCurrent = ColorT{
-	colorRGB: "#ffff00",
+	colorRGB: *color.HEXStyle("#ffff00"),
 	color16:  color.Yellow,
 	color256: color.C256(190), // Yellow
 }
 var colorError = ColorT{
-	colorRGB: "#ff4040",
+	colorRGB: *color.HEXStyle("#ff4040"),
 	color16:  color.Red,
 	color256: color.C256(198), // Red
 }
@@ -352,8 +352,7 @@ func getConfigPath() string {
 func colorPrintF(textColor ColorT, format string, args ...interface{}) {
 	switch colorMode {
 	case ColorMode16m:
-		style := color.HEXStyle(textColor.colorRGB)
-		style.Printf(format, args...)
+		textColor.colorRGB.Printf(format, args...)
 	case ColorMode16:
 		textColor.color16.Printf(format, args...)
 	case ColorMode256:
@@ -372,8 +371,7 @@ func colorPrintF(textColor ColorT, format string, args ...interface{}) {
 func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
 	switch colorMode {
 	case ColorMode16m:
-		style := color.HEXStyle(textColor.colorRGB)
-		fmt.Printf("%s\n", style.Sprintf(format, args...))
+		fmt.Printf("%s\n", textColor.colorRGB.Sprintf(format, args...))
 	case ColorMode16:
 		fmt.Printf("%s\n", textColor.color16.Sprintf(format, args...))
 	case ColorMode256:
@@ -388,8 +386,7 @@ func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
 func colorSprintF(textColor ColorT, format string, args ...interface{}) string {
 	switch colorMode {
 	case ColorMode16m:
-		style := color.HEXStyle(textColor.colorRGB)
-		return style.Sprintf(format, args...)
+		return textColor.colorRGB.Sprintf(format, args...)
 	case ColorMode16:
 		return textColor.color16.Sprintf(format, args...)
 	case ColorMode256:
