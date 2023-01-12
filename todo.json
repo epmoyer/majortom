@@ -65,7 +65,7 @@
             "id": 2,
             "cards": [
                 {
-                    "name": "installer should run the -init. &nbsp;Ask first?",
+                    "name": "installer should run the -init.;Ask first?",
                     "id": 117,
                     "id_labels": [],
                     "description": "",
@@ -96,9 +96,10 @@
                     "name": "Support 256 color and no color. 16?",
                     "id": 113,
                     "id_labels": [],
-                    "description": "",
+                    "description": "https://github.com/jwalton/go-supportscolor",
                     "due": null,
-                    "due_complete": false
+                    "due_complete": false,
+                    "repeat": null
                 },
                 {
                     "name": "Fully comment.",
