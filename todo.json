@@ -130,6 +130,15 @@
                     "due": null,
                     "due_complete": false,
                     "repeat": null
+                },
+                {
+                    "name": "When un-tar on linux got warnings",
+                    "id": 118,
+                    "id_labels": [],
+                    "description": "Got the following (was actually on the voyager project, but probably same holds)\n\n```\ntar: Ignoring unknown extended header keyword 'LIBARCHIVE.xattr.com.dropbox.attrs'\n```",
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
                 }
             ]
         },
