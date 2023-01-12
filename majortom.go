@@ -12,10 +12,11 @@ import (
 	"strings"
 
 	"github.com/gookit/color"
+	"github.com/jwalton/go-supportscolor"
 )
 
 const APP_NAME = "majortom"
-const APP_VERSION = "1.1.0"
+const APP_VERSION = "1.1.1"
 
 type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
@@ -77,6 +78,19 @@ func main() {
 	if *optInit {
 		initConfig()
 		os.Exit(EXIT_CODE_SUCCESS)
+	}
+
+	fmt.Println("Supported color modes:")
+	if supportscolor.Stdout().SupportsColor {
+		fmt.Println("   Terminal stdout supports color")
+	}
+
+	if supportscolor.Stdout().Has256 {
+		fmt.Println("   Terminal stdout supports 256 colors")
+	}
+
+	if supportscolor.Stderr().Has16m {
+		fmt.Println("   Terminal stderr supports 16 million colors (true color)")
 	}
 
 	args := flag.Args()
