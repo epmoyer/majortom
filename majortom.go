@@ -15,7 +15,7 @@ import (
 )
 
 const APP_NAME = "majortom"
-const APP_VERSION = "1.1.1"
+const APP_VERSION = "1.2.0"
 
 type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`

@@ -93,15 +93,6 @@
                     "repeat": null
                 },
                 {
-                    "name": "Support 256 color and no color. 16?",
-                    "id": 113,
-                    "id_labels": [],
-                    "description": "https://github.com/jwalton/go-supportscolor",
-                    "due": null,
-                    "due_complete": false,
-                    "repeat": null
-                },
-                {
                     "name": "Fully comment.",
                     "id": 115,
                     "id_labels": [],
@@ -147,6 +138,15 @@
             "name": "Testing",
             "id": 6,
             "cards": [
+                {
+                    "name": "Support 256 color and no color. 16?",
+                    "id": 113,
+                    "id_labels": [],
+                    "description": "https://github.com/jwalton/go-supportscolor",
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
+                },
                 {
                     "name": "auto-package installers into .zip and .tgz for release",
                     "id": 109,

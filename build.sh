@@ -9,6 +9,19 @@ APP_NAME=`awk '/^const APP_NAME/{print $4}' majortom.go | sed -e 's/"//g'`
 
 echo "Building $APP_NAME version $APP_VERSION..."
 
+if ! command -v gtar &> /dev/null
+then
+    TAR_APP=tar
+    echo "gtar not found. Will use tar instead."
+    echo "NOTE: If you are building on MacOS then the native MacOS tar will cause"
+    echo "      (benign) warnings about the extended header keyword LIBARCHIVE.xattr.com.dropbox.attrs"
+    echo "      when un-tar-ing the resulting tar archive on Linux systems.  Using gtar avoids this."
+else
+    TAR_APP=gtar
+    echo "gtar found. Will use gtar."
+fi
+# TAR_APP=tar
+
 do_build () {
     USE_GOOS=$1
     USE_GOARCH=$2
@@ -28,6 +41,14 @@ do_build () {
     cp dist/resources/install.sh $TARGET_DIR
     cp dist/resources/shell_init_snippet.sh $TARGET_DIR
 
+    # I don't really like the non-determinism of this sleep command, but without it the tar below
+    # would sometimes throw the warning "gtar: ./majortom: file changed as we read it".
+    # Presumably the go build is backgrounding some stage of operation, or the file system is
+    # synching.  I tried 'sync' and 'wait', but only `sleep 1` appears to (for now) have reliably
+    # squashed the warning (which is really an error to us, if the build has not completed before
+    # we tar).
+    sleep 1
+
     # Build release
     if [ "$IMAGE_TYPE" = "zip" ]; then
         TARGET_ARCHIVE=dist/images/${APP_NAME}_$APP_VERSION.$TARGET_NAME.zip
@@ -36,7 +57,7 @@ do_build () {
     else
         TARGET_ARCHIVE=dist/images/${APP_NAME}_$APP_VERSION.$TARGET_NAME.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
-        tar -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
+        $TAR_APP -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
     fi
     echo ""
 }
