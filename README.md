@@ -4,8 +4,6 @@ MajorTom is a delightful command line utility for navigating between file path s
 
 MajorTom is here to get you where you need to go.
 
-![](docs/img/majortom_intro_screenshot.png)
-
 ### List shortcuts
 Use `to` (with no arguments) to list your current shortcuts.
 ![](docs/img/majortom_get_shortcuts.png)
@@ -29,7 +27,7 @@ Use `to -d <shortcut>` to delete an existing shortcut.
 ![](docs/img/majortom_delete_shortcut.png)
 
 
-### Color Support
+### Terminal Color Modes
 MajorTom defaults to use 16m (24-bit RGB) terminal color codes. It also supports 256/16/no-color modes via the
 following command-line options.  
 
@@ -38,7 +36,7 @@ following command-line options.
 - `-color=16`
 - `-no-color`
 
-If you want to force a color mode other than the default (16m), then add it to the `to()` function
+If you want to force a color mode other than the default (`16m`), then add it to the `to()` function
 in your `.bashrc`/`.zshrc` like this:
 
 ```bash
