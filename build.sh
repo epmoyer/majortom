@@ -28,8 +28,9 @@ do_build () {
     TARGET_NAME=$3
     IMAGE_TYPE=$4
 
-    BUILD_DIR=dist/builds
-    TARGET_DIR=$BUILD_DIR/$APP_NAME\_$APP_VERSION.$3
+    BUILD_DIR_BASE=dist/builds
+    BUILD_DIR_FINAL=$APP_NAME\_$APP_VERSION.$3
+    TARGET_DIR=$BUILD_DIR_BASE/$BUILD_DIR_FINAL
 
     echo "${CYAN}$USE_GOOS:$USE_GOARCH${ENDCOLOR} -------------------------------------------"
 
@@ -61,7 +62,7 @@ do_build () {
     else
         TARGET_ARCHIVE=dist/images/${APP_NAME}_$APP_VERSION.$TARGET_NAME.tgz
         echo "Building compressed image $TARGET_ARCHIVE..."
-        $TAR_APP -czf $TARGET_ARCHIVE -C $TARGET_DIR --exclude=.gitkeep --exclude=.DS_Store .
+        $TAR_APP -czf $TARGET_ARCHIVE -C $BUILD_DIR_BASE --exclude=.gitkeep --exclude=.DS_Store $BUILD_DIR_FINAL
     fi
     echo ""
 }
