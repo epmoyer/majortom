@@ -28,11 +28,15 @@ do_build () {
     TARGET_NAME=$3
     IMAGE_TYPE=$4
 
-    TARGET_DIR=dist/builds/$3
+    BUILD_DIR=dist/builds
+    TARGET_DIR=$BUILD_DIR/$APP_NAME\_$APP_VERSION.$3
 
     echo "${CYAN}$USE_GOOS:$USE_GOARCH${ENDCOLOR} -------------------------------------------"
 
-    echo "Building into $TARGET_DIR..."
+    echo "Building into: $TARGET_DIR..."
+
+    echo "Making directory (if missing): $TARGET_DIR..."
+    mkdir -p $TARGET_DIR
 
     # Build executable
     GOOS=$USE_GOOS GOARCH=$USE_GOARCH go build -o $TARGET_DIR/majortom
