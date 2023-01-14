@@ -1,6 +1,6 @@
 ![](docs/img/majortom_banner.png)
 
-MajorTom is a delightful command line utility for navigating between file path shortcuts.
+MajorTom provides simple shortcut navigation to locations in your file system.
 
 MajorTom is here to get you where you need to go.
 
@@ -11,7 +11,7 @@ Use `to` (with no arguments) to list your current shortcuts.
 ### Navigate
 Use `to <shortcut>` to navigate (change directory) to an existing shortcut.
 
-You can also abbreviate the shortcut name (e.g. `to apa` for `apache2`).
+You can also abbreviate the shortcut name (e.g. `to apa` for `apache`).
 ![](docs/img/majortom_cd_to_apache.png)
 
 ### See where you are
