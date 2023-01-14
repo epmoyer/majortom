@@ -29,6 +29,27 @@ Use `to -d <shortcut>` to delete an existing shortcut.
 ![](docs/img/majortom_delete_shortcut.png)
 
 
+### Color Support
+MajorTom defaults to use 16m (24-bit RGB) terminal color codes. It also supports 256/16/no-color modes via the
+following command-line options.  
+
+- `-color=16m`
+- `-color=256`
+- `-color=16`
+- `-no-color`
+
+If you want to force a color mode other than the default (16m), then add it to the `to()` function
+in your `.bashrc`/`.zshrc` like this:
+
+```bash
+to () {
+    result=$(majortom -color=16 $@)
+...
+```
+
+![](docs/img/majortom_colors.png)
+
+
 ## Installation
 
 ### Pre-Made Builds

@@ -65,16 +65,8 @@
             "id": 2,
             "cards": [
                 {
-                    "name": "installer should run the -init.;Ask first?",
-                    "id": 117,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
-                    "name": "Describe shell to() function dependence in usage.",
-                    "id": 108,
+                    "name": "Add uninstall script?",
+                    "id": 114,
                     "id_labels": [],
                     "description": null,
                     "due": null,
@@ -82,11 +74,9 @@
                     "repeat": null
                 },
                 {
-                    "name": "-init should create .config and/or .config/majortom if they DNE.",
-                    "id": 112,
-                    "id_labels": [
-                        4
-                    ],
+                    "name": "Describe shell to() function dependence in usage.",
+                    "id": 108,
+                    "id_labels": [],
                     "description": null,
                     "due": null,
                     "due_complete": false,
@@ -107,6 +97,14 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
+                },
+                {
+                    "name": "Test repo extract/build from scratch.",
+                    "id": 119,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
@@ -115,13 +113,23 @@
             "id": 3,
             "cards": [
                 {
-                    "name": "Add uninstall script?",
-                    "id": 114,
-                    "id_labels": [],
+                    "name": "-init should create .config and/or .config/majortom if they DNE.",
+                    "id": 112,
+                    "id_labels": [
+                        4
+                    ],
                     "description": null,
                     "due": null,
                     "due_complete": false,
                     "repeat": null
+                },
+                {
+                    "name": "installer should run the -init.;Ask first?",
+                    "id": 117,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
