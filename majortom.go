@@ -15,7 +15,7 @@ import (
 )
 
 const APP_NAME = "majortom"
-const APP_VERSION = "1.2.0"
+const APP_VERSION = "1.3.0"
 
 type ConfigDataT struct {
 	Locations map[string]string `json:"locations"`
@@ -263,7 +263,11 @@ func showShortcuts(config ConfigDataT) {
 			colorPrintFLn(colorPath, "%s", path)
 		} else {
 			// Path does not exist
-			colorPrintFLn(colorPathDNE, "%s", path)
+			if colorMode == ColorModeNone {
+				fmt.Printf("%s (DOES NOT EXIST)\n", path)
+			} else {
+				colorPrintFLn(colorPathDNE, "%s", path)
+			}
 		}
 	}
 }
