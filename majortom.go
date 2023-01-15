@@ -79,19 +79,24 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Fprintf(
 			w,
-			"NOTE:\n   Set the environment variable %s to point to %s's configuration file.\n"+
-				"   If not set, the configuration file path will default to: %s\n",
+			"NOTE:\n"+
+				"   majortom is meant to be invoked by the to() helper shell script function.\n"+
+				"   Calling majortom directly will not change your working directory.\n"+
+				"NOTE:\n"+
+				"   Set the environment variable %s to point to %s's configuration file.\n"+
+				"   If not set, the configuration file path will default to: %s\n"+
+				"\n",
 			ENV_VAR_CONFIG, APP_NAME, DEFAULT_CONFIG_PATH)
 
 		configPath := os.Getenv(ENV_VAR_CONFIG)
 		if configPath == "" {
-			fmt.Fprintf(w, "   Currently %s is not set.\n", ENV_VAR_CONFIG)
+			fmt.Fprintf(w, "Currently %s is not set.\n", ENV_VAR_CONFIG)
 		} else {
-			fmt.Fprintf(w, "   Currently %s is set to \"%s\".\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
+			fmt.Fprintf(w, "Currently %s is set to \"%s\".\n", ENV_VAR_CONFIG, os.Getenv(ENV_VAR_CONFIG))
 		}
 
 		configPath = getConfigPath()
-		fmt.Fprintf(w, "   Expecting config file to be at: %s\n", configPath)
+		fmt.Fprintf(w, "Expecting config file to be at: %s\n", configPath)
 	}
 
 	optVersion := flag.Bool("version", false,
