@@ -1,6 +1,6 @@
 ![](docs/img/majortom_banner.png)
 
-MajorTom provides simple shortcut navigation around your file system.
+MajorTom provides simple file system navigation shortcuts.
 
 MajorTom is here to get you where you need to go.
 
@@ -53,34 +53,10 @@ to () {
 ### Pre-Made Builds
 
 ### From Source
+- Follow the [Build Instructions](#build-instructions) to build the install images.
+- `cd` into the build for your OS and processor architecture under `dist/builds`
+- Run `./install.sh`
 
-```bash
-# majortom:start ---------------------------------------------------------------
-
-# To override the default config file name/location uncomment the following line
-# and point it to your desired config file. 
-# export MAJORTOM_CONFIG="~/.config/majortom/majortom_config.json"
-
-# The to() function runs majortom (with all supplied arguments) and if majortom
-# returns a path then cd's to that path.
-to () {
-    result=$(majortom $@ )
-    if [[ $result = :* ]]
-    then
-        # A path was returned (prefixed by ":"). Print it, and then cd to it.
-        result="${result:1}"
-        echo "$result"
-        cd "$result"
-    else
-        # Print the result if non-blank
-        if test "$result"
-        then
-            echo "$result"
-        fi
-    fi
-}
-# majortom:end -----------------------------------------------------------------
-```
 ## Uninstalling
 - Delete the `to()` helper function from your `~/.bashrc` and/or `~/.zshrc`.
     - Delete the lines from:
@@ -117,7 +93,7 @@ _(These instructions presume that you have a working [go](https://go.dev) enviro
 
 ### To build from source
 - Clone the repo
-- In the repo, run: `./build.sh`
+- Inside the repo, run: `./build.sh`
     - Builds will be created in `/dist/builds`
     - zip/tar images will be created in `/dist/images`
 
@@ -135,7 +111,7 @@ The API of the `do_build()` function is basically `do_build(GOOS, GOARCH, [tar|z
 ## How it works
 The `to` command (defined in `/dist/resources/shell_init_snippet.sh`) is a shell script function which gets added to your shell init script (`.bahsrc`, `.zshrc`).
 
-`to` calls `majortom` (which gets installed in `/usr/local/bin/majortom`), and if `majortom` returns a path (which it will prefix with `:`) then `to` will `cd` to it.
+`to()` calls `majortom` (which gets installed in `/usr/local/bin/majortom`), and if `majortom` returns a path (which it will prefix with `:`) then `to` will `cd` to it.
 
 You can see this behavior if you run `majortom` directly...
 ![](docs/img/majortom_direct_execution_apache.png)
