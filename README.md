@@ -126,7 +126,11 @@ The build script creates cross-compiled builds for multiple OS's and processor a
 
 For example, this line create a release for the `linux` OS and the `amd64` architecture, and packages the output as a `tar` image:
 
-`do_build linux amd64 linux.amd64 tar`
+`do_build linux amd64 tar`
+
+The API of the `do_build()` function is basically `do_build(GOOS, GOARCH, [tar|zip])` so you can pass any `GOOS` or `GOARCH` that `go` [supports](https://go.dev/doc/install/source#environment).
+
+**NOTE**: For clarity the `GOOS` `darwin` is renamed to `macos` when creating build outputs. 
 
 ## How it works
 The `to` command (defined in `/dist/resources/shell_init_snippet.sh`) is a shell script function which gets added to your shell init script (`.bahsrc`, `.zshrc`).
