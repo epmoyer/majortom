@@ -1,6 +1,6 @@
 ![](docs/img/majortom_banner.png)
 
-MajorTom provides simple file system navigation shortcuts.
+MajorTom enables simple file system navigation with shortcuts.
 
 MajorTom is here to get you where you need to go.
 
