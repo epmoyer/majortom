@@ -67,7 +67,6 @@ to () {
     - `sudo rm /usr/local/bin/majortom`
 
 ## Configuration File
-
 By default, MajorTom's config file location defaults to `~/.config/majortom/majortom_config.json`.  You can override that by setting the environment variable `MAJORTOM_CONFIG`.  (e.g. `export MAJORTOM_CONFIG=~/my_config_dir/mt.json`).
 
 If you don't yet have a config file, you can create one by running `majortom -init`, which will create a new (blank) config file at the currently configured location.
@@ -92,21 +91,23 @@ A typical config file containing a few shortcuts might look like this:
 _(These instructions presume that you have a working [go](https://go.dev) environment set up on your machine)_
 
 ### To build from source
-- Clone the repo
-- Inside the repo, run: `./build.sh`
-    - Builds will be created in `/dist/builds`
-    - zip/tar images will be created in `/dist/images`
+- Clone the repo.
+- `cd` into the repo.
+- Run `go get .` to fetch the dependencies.
+- Run `./build.sh`
+    - The builds will be created in `/dist/builds`
+    - the `zip`/`tar` images will be created in `/dist/images`
 
 ### Building for other architectures/processors
 The build script creates cross-compiled builds for multiple OS's and processor architectures.  If you need to create a build for different OS or architecture, add a new one to the end of the `.build.sh` script.
 
-For example, this line create a release for the `linux` OS and the `amd64` architecture, and packages the output as a `tar` image:
+For example, this line creates a release for the `linux` OS and the `amd64` architecture, and packages the output as a `tar` image:
 
 `do_build linux amd64 tar`
 
 The API of the `do_build()` function is basically `do_build(GOOS, GOARCH, [tar|zip])` so you can pass any `GOOS` or `GOARCH` that `go` [supports](https://go.dev/doc/install/source#environment).
 
-**NOTE**: For clarity the `GOOS` `darwin` is renamed to `macos` when creating build outputs. 
+**NOTE**: For clarity, if the `GOOS` is set to `darwin` then the name `macos` gets used when creating build outputs. 
 
 ## How it works
 The `to` command (defined in `/dist/resources/shell_init_snippet.sh`) is a shell script function which gets added to your shell init script (`.bahsrc`, `.zshrc`).
