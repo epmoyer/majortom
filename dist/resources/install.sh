@@ -5,18 +5,38 @@ YELLOW=$'\033[33m'
 GREEN=$'\033[32m'
 ENDCOLOR=$'\033[0m'
 
+# Get command line options
+FORCE='NO'
+while getopts ":f" option; do
+   case $option in
+      f) # Force
+         FORCE='YES'
+   esac
+done
+
 echo "Installing to /usr/local/bin.  You may be prompted for sudo permissions..."
 sudo cp majortom /usr/local/bin
 sudo chmod 755 /usr/local/bin/majortom
 echo "${GREEN}   Copied.${ENDCOLOR}"
 
 install_shell_snippet() {
+    FILE=$1
+
     echo "         Adding to() function to $FILE..."
     cat shell_init_snippet.sh >> $FILE
     echo "         ${GREEN}Added.${ENDCOLOR}"
 }
 
 query_install_shell_snippet() {
+    FILE=$1
+
+    if [[ $FORCE = "YES" ]]
+    then
+        # Force install without query
+        install_shell_snippet $FILE
+        return
+    fi
+
     read -p "      Add to() function to $FILE ? " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
@@ -30,7 +50,7 @@ query_install_shell_snippet() {
 check_shell_init_script () {
     FILE=$1
     echo "      looking for existing shell init snippet..."
-    if grep -Fxq "# majortom:start" $FILE
+    if grep -Fq "# majortom:start" $FILE
     then
         echo "         ${GREEN}Found.${ENDCOLOR}"
     else
