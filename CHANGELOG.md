@@ -6,9 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.0 - 2023-01-15
 ### Changed
-- Prompt for creation of new config file with `-init`.
-### Added
-- `-force` option (to force `-init` without prompting).
+- `-init` will create parent directories if they don't exist.
+    - NOTE: for a brief time there was a `-force` option (to force `-init` without prompting) but it turned out that prompts were not visible to thn user because thy occur within the (output capturing) shell function to(). So now `-init` creates the file (and paths) unconditionally, so long as the config file does not already exist.
 
 ## 1.3.0 - 2023-01-14
 ### Added

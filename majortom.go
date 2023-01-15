@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -98,8 +96,6 @@ func main() {
 
 	optVersion := flag.Bool("version", false,
 		"Show version.")
-	optForce := flag.Bool("force", false,
-		"Force init to create config if absent.")
 	optAdd := flag.Bool("a", false,
 		"Add current directory path as <shortcut>.")
 	optDelete := flag.Bool("d", false,
@@ -120,7 +116,7 @@ func main() {
 	}
 
 	if *optInit {
-		initConfig(*optForce)
+		initConfig()
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
@@ -330,9 +326,8 @@ func saveConfig(config ConfigDataT) {
 
 // Initialize the configuration file.
 //
-//   - The optForce boolean, if set, will cause the config to be created without prompting.
 //   - This function will NEVER overwrite the config file, REGARDLESS of the state of optForce.
-func initConfig(optForce bool) {
+func initConfig() {
 	pathConfig := getConfigPath()
 
 	if _, err := os.Stat(pathConfig); !os.IsNotExist(err) {
@@ -346,56 +341,28 @@ func initConfig(optForce bool) {
 		os.Exit(EXIT_CODE_FAIL)
 	}
 
-	if !optForce {
-		fmt.Printf(
-			"This will initialize (create) a new %s config file at:\n   %s\n",
-			APP_NAME,
-			pathConfig)
-		if !confirm("Create the new config file?") {
-			fmt.Println("   Canceled.")
-			return
-		}
-	}
-
 	// Make a blank config struct
 	config := ConfigDataT{}
 	config.Locations = map[string]string{}
+
+	// Create missing config directory (and its parents), if they don't exist
+	pathConfig = getConfigPath()
+	parent := filepath.Dir(pathConfig)
+	if _, err := os.Stat(parent); os.IsNotExist(err) {
+		// parent does not exist
+		fmt.Printf("Creating directory: %s\n", parent)
+		err := os.MkdirAll(parent, 0755)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(EXIT_CODE_FAIL)
+		}
+	}
 
 	saveConfig(config)
 	fmt.Printf(
 		"A new %s config file has been initialized (created) at:\n   %s\n",
 		APP_NAME,
 		pathConfig)
-}
-
-// confirm displays a prompt `prompt` to the user and returns a bool indicating yes / no
-// If the lowercased, trimmed input begins with 'y', it returns true
-// If the lowercased, trimmed input begins with 'n', it returns true
-// Any other input will prompt again.
-func confirm(prompt string) bool {
-	reader := bufio.NewReader(os.Stdin)
-
-	for {
-		fmt.Printf("%s [y/n]: ", prompt)
-
-		response, err := reader.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		// Empty input (i.e. "\n")
-		if len(response) < 2 {
-			continue
-		}
-
-		first := strings.ToLower(strings.TrimSpace(response))[0]
-		switch first {
-		case 'y':
-			return true
-		case 'n':
-			return false
-		}
-	}
 }
 
 func getConfigPath() string {
