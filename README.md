@@ -1,8 +1,6 @@
 ![](docs/img/majortom_banner.png)
 
-MajorTom enables simple file system navigation with shortcuts.
-
-MajorTom is here to get you where you need to go.
+Navigate your file system using shortcuts.
 
 ### List shortcuts
 Use `to` (with no arguments) to list your current shortcuts.
@@ -27,7 +25,7 @@ Use `to -d <shortcut>` to delete an existing shortcut.
 ![](docs/img/majortom_delete_shortcut.png)
 
 
-### Terminal Color Modes
+### Supported Color Modes
 MajorTom defaults to use 16m (24-bit RGB) terminal color codes. It also supports 256/16/no-color modes via the
 following command-line options.  
 
@@ -47,6 +45,12 @@ to () {
 
 ![](docs/img/majortom_colors.png)
 
+### Supported Shells
+MajorTom supports `zsh` and `bash`.  During installation it will look for `~/.zshrc` and `~/.bashrc` 
+and will prompt you to install its helper function `to()` into each (if found).
+
+To `to()` function is extremely simple, so if you're running a different shell and have some basic
+familiarity with shell scripting then you should have no trouble porting it to a different shell.
 
 ## Installation
 
