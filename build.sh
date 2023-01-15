@@ -25,11 +25,20 @@ fi
 do_build () {
     USE_GOOS=$1
     USE_GOARCH=$2
-    TARGET_NAME=$3
-    IMAGE_TYPE=$4
+    IMAGE_TYPE=$3
+
+    OS_NAME=$USE_GOOS
+    if [[ $OS_NAME = "darwin" ]]
+    then
+        # We will use the name 'macos' instead of 'darwin' for build images to provide clarity
+        # for a broader range of macos users.
+        OS_NAME='macos'
+    fi
+
+    TARGET_NAME=$OS_NAME.$USE_GOARCH
 
     BUILD_DIR_BASE=dist/builds
-    BUILD_DIR_FINAL=$APP_NAME\_$APP_VERSION.$3
+    BUILD_DIR_FINAL=$APP_NAME\_$APP_VERSION.$TARGET_NAME
     TARGET_DIR=$BUILD_DIR_BASE/$BUILD_DIR_FINAL
 
     echo "${CYAN}$USE_GOOS:$USE_GOARCH${ENDCOLOR} -------------------------------------------"
@@ -68,7 +77,7 @@ do_build () {
 }
 
 # Run builds for all target platforms
-do_build darwin amd64 macos.amd64 zip
-do_build linux amd64 linux.amd64 tar
+do_build darwin amd64 zip
+do_build linux amd64 tar
 
 echo "${GREEN}Done.${ENDCOLOR}"

@@ -81,8 +81,14 @@ to () {
 }
 # majortom:end -----------------------------------------------------------------
 ```
-
-## How to Use
+## Uninstalling
+- Delete the `to()` helper function from your `~/.bashrc` and/or `~/.zshrc`.
+    - Delete the lines from:
+        -  `# majortom:start -----------------------------------------------------------------` 
+    - Through:
+        - `# majortom:end -----------------------------------------------------------------`
+- Delete the executable:
+    - `sudo rm /usr/local/bin/majortom`
 
 ## Configuration File
 
@@ -106,7 +112,21 @@ A typical config file containing a few shortcuts might look like this:
 }
 ```
 
-## Build
+## Build Instructions
+_(These instructions presume that you have a working [go](https://go.dev) environment set up on your machine)_
+
+### To build from source
+- Clone the repo
+- In the repo, run: `./build.sh`
+    - Builds will be created in `/dist/builds`
+    - zip/tar images will be created in `/dist/images`
+
+### Building for other architectures/processors
+The build script creates cross-compiled builds for multiple OS's and processor architectures.  If you need to create a build for different OS or architecture, add a new one to the end of the `.build.sh` script.
+
+For example, this line create a release for the `linux` OS and the `amd64` architecture, and packages the output as a `tar` image:
+
+`do_build linux amd64 linux.amd64 tar`
 
 ## How it works
 The `to` command (defined in `/dist/resources/shell_init_snippet.sh`) is a shell script function which gets added to your shell init script (`.bahsrc`, `.zshrc`).
