@@ -130,6 +130,14 @@
                     "description": "",
                     "due": null,
                     "due_complete": false
+                },
+                {
+                    "name": "installer should support -f (and pass it to init, and use it to force shell script injection)",
+                    "id": 120,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
                 }
             ]
         },
