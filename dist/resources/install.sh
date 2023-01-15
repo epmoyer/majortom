@@ -74,4 +74,7 @@ echo "Adding to() function to shell script..."
 process_shell_script ~/.bashrc
 process_shell_script ~/.zshrc
 
+echo "Initializing majortom config file (if one already exists, it will NOT be overwritten)..."
+majortom -init > /dev/null
+
 echo "${GREEN}Done.${ENDCOLOR}"

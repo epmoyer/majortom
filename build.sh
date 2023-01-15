@@ -3,7 +3,7 @@ GREEN=$'\033[32m'
 CYAN=$'\033[36m'
 ENDCOLOR=$'\033[0m'
 
-# Extract the app name and version numberfrom the main go file by brute force
+# Extract the app name and version number from the main go file by brute force
 APP_VERSION=`awk '/^const APP_VERSION/{print $4}' majortom.go | sed -e 's/"//g'`
 APP_NAME=`awk '/^const APP_NAME/{print $4}' majortom.go | sed -e 's/"//g'`
 
