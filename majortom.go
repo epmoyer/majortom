@@ -28,7 +28,7 @@ type ColorT struct {
 
 var colorShortcut = ColorT{
 	colorRGB: *color.HEXStyle("#ff8000"),
-	color16:  color.Yellow,
+	color16:  color.Magenta,
 	color256: color.C256(208), // Orange
 }
 var colorPath = ColorT{
@@ -43,7 +43,7 @@ var colorPathDNE = ColorT{
 }
 var colorCurrent = ColorT{
 	colorRGB: *color.HEXStyle("#ffff00"),
-	color16:  color.Magenta,
+	color16:  color.Yellow,
 	color256: color.C256(190), // Yellow
 }
 var colorError = ColorT{
@@ -256,7 +256,7 @@ func showShortcuts(config ConfigDataT) {
 
 	var maxLen int
 	shortcuts := make([]string, 0)
-	for shortcut, _ := range config.Locations {
+	for shortcut := range config.Locations {
 		if len(shortcut) > maxLen {
 			maxLen = len(shortcut)
 		}
@@ -264,7 +264,9 @@ func showShortcuts(config ConfigDataT) {
 	}
 
 	if len(shortcuts) == 0 {
-		fmt.Println("No shortcuts exist yet.  Use the \"-a <shortcut>\" command to create your first shortcut.")
+		fmt.Println(
+			"No shortcuts exist yet.  Use the \"-a <shortcut>\" command " +
+				"to create your first shortcut.")
 		return
 	}
 
