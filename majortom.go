@@ -116,11 +116,13 @@ func main() {
 	setColorMode(*optNoColor, *optColor)
 
 	if *optVersion {
+		// Show version and exit
 		fmt.Printf("%s %s\n", APP_NAME, APP_VERSION)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 
 	if *optInit {
+		// Initialize (create) config file and exit
 		initConfig()
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
@@ -135,19 +137,24 @@ func main() {
 	config := loadConfig()
 
 	if len(args) == 0 {
+		// With no arguments, show the current list of shortcuts and exit
 		showShortcuts(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	if *optAdd {
+		// Add a new shortcut
 		config = addShortcut(config, args[0])
 		saveConfig(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
 	if *optDelete {
+		// Delete a shortcut
 		config = deleteShortcut(config, args[0])
 		saveConfig(config)
 		os.Exit(EXIT_CODE_SUCCESS)
 	}
+
+	// Lookup the requested shortcut, and return it prepended by ":"
 	path := getPath(config, args[0])
 	path = expandHome(path)
 	fmt.Printf(":%s\n", path)
@@ -196,6 +203,13 @@ func deleteShortcut(config ConfigDataT, shortcut string) ConfigDataT {
 	return config
 }
 
+// Get the network path associated with the requested shortcut.
+//
+// - The shortcut can be abbreviated.
+// - If no match is found then exit as failure.
+// - If the requested shortcut does not unambiguously match a SINGLE defined shortcut, then
+//   print a list of the matching shortcuts and exit as failure.
+//
 func getPath(config ConfigDataT, shortcut string) string {
 	paths := make([]string, 0)
 	matched_keys := make([]string, 0)
@@ -232,6 +246,7 @@ func getPath(config ConfigDataT, shortcut string) string {
 	return paths[0]
 }
 
+// Print all configured shortcuts
 func showShortcuts(config ConfigDataT) {
 	currentPath, err := os.Getwd()
 	if err != nil {
@@ -277,6 +292,7 @@ func showShortcuts(config ConfigDataT) {
 	}
 }
 
+// Replace '~' in requested path with the current user's home path.
 func expandHome(path string) string {
 	usr, _ := user.Current()
 	homeDir := usr.HomeDir
@@ -292,12 +308,15 @@ func expandHome(path string) string {
 	return path
 }
 
+// Replace the current user's home path within the requested path with `~`.
 func abbreviateHome(path string) string {
 	usr, _ := user.Current()
 	dir := usr.HomeDir
 	return strings.Replace(path, dir, "~", 1)
 }
 
+// Load the config file and return it as a ConfigDataT object.
+// Exits on failure.
 func loadConfig() ConfigDataT {
 	pathConfig := getConfigPath()
 
@@ -317,10 +336,10 @@ func loadConfig() ConfigDataT {
 	}
 	defer jsonFile.Close()
 
-	var shortcuts ConfigDataT
+	var config ConfigDataT
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	json.Unmarshal(byteValue, &shortcuts)
-	return shortcuts
+	json.Unmarshal(byteValue, &config)
+	return config
 }
 
 func saveConfig(config ConfigDataT) {
@@ -329,9 +348,10 @@ func saveConfig(config ConfigDataT) {
 	_ = ioutil.WriteFile(pathConfig, file, 0644)
 }
 
-// Initialize the configuration file.
+// Initialize the configuration file (IF it does not already exist).
 //
-//   - This function will NEVER overwrite the config file, REGARDLESS of the state of optForce.
+// This function will NEVER overwrite an existing config file.
+//
 func initConfig() {
 	pathConfig := getConfigPath()
 
@@ -370,6 +390,7 @@ func initConfig() {
 		pathConfig)
 }
 
+// Get the path of the current config file (with ~ expanded).
 func getConfigPath() string {
 	path := os.Getenv(ENV_VAR_CONFIG)
 	if path == "" {
@@ -379,7 +400,7 @@ func getConfigPath() string {
 	return path
 }
 
-// Print colorized formatted string
+// Print a colorized formatted string
 func colorPrintF(textColor ColorT, format string, args ...interface{}) {
 	switch colorMode {
 	case ColorMode16m:
@@ -393,12 +414,13 @@ func colorPrintF(textColor ColorT, format string, args ...interface{}) {
 	}
 }
 
-// Print colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
+// Print a colorized formatted string, with a terminating linefeed AFTER the color reset escape code.
 //
 // The output of this application is captured and echoed by a shell script, and the shell doesn't
-// recognize that echo'd content ended in a linefeed when that linefeed occurs BEFORE the
-// escape codes used to clear the color.  To fix that we use this wrapper function which will
-// inject a terminating linefeed AFTER the color reset escape code.
+// recognize that echo'd content ends in a linefeed IF that linefeed occurs BEFORE the
+// escape codes used to clear the color.  To fix that issue we use this wrapper function which
+// will inject a terminating linefeed AFTER the color reset escape code.
+//
 func colorPrintFLn(textColor ColorT, format string, args ...interface{}) {
 	switch colorMode {
 	case ColorMode16m:
