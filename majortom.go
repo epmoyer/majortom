@@ -22,34 +22,34 @@ type ConfigDataT struct {
 }
 type ColorT struct {
 	colorRGB color.RGBStyle
-	color16  color.Color
 	color256 color.Color256
+	color16  color.Color
 }
 
 var colorShortcut = ColorT{
 	colorRGB: *color.HEXStyle("#ff8000"),
-	color16:  color.Magenta,
 	color256: color.C256(208), // Orange
+	color16:  color.Magenta,
 }
 var colorPath = ColorT{
 	colorRGB: *color.HEXStyle("#00ffff"),
-	color16:  color.Cyan,
 	color256: color.C256(87), // Cyan
+	color16:  color.Cyan,
 }
 var colorPathDNE = ColorT{
 	colorRGB: *color.HEXStyle("#808080"),
-	color16:  color.Red,
 	color256: color.C256(246), // Gray
+	color16:  color.Red,
 }
 var colorCurrent = ColorT{
 	colorRGB: *color.HEXStyle("#ffff00"),
-	color16:  color.Yellow,
 	color256: color.C256(190), // Yellow
+	color16:  color.Yellow,
 }
 var colorError = ColorT{
 	colorRGB: *color.HEXStyle("#ff4040"),
-	color16:  color.Red,
 	color256: color.C256(198), // Red
+	color16:  color.Red,
 }
 
 const (
