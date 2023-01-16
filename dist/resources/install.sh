@@ -50,7 +50,7 @@ query_install_shell_snippet() {
 check_shell_init_script () {
     FILE=$1
     echo "      looking for existing shell init snippet..."
-    if grep -FEq "^# majortom:start" $FILE
+    if grep -Eq "^# majortom:start" $FILE
     then
         echo "         ${GREEN}Found.${ENDCOLOR}"
     else
