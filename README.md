@@ -1,6 +1,6 @@
 ![](docs/img/majortom_banner.png)
 
-Navigate your file system using shortcuts.
+Navigate your file system from the command line using shortcuts.
 
 ### List shortcuts
 Use `to` (with no arguments) to list your current shortcuts.
