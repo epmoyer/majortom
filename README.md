@@ -13,11 +13,11 @@ You can also abbreviate the shortcut name (e.g. `to apa` for `apache`).
 ![](docs/img/majortom_cd_to_apache.png)
 
 ### See where you are
-When you run `to` (with no arguments) and you are in a directory for which you have a shortcut, that shortcut will be indicated (yellow, with marker).
+When you run `to` (with no arguments) all shortcuts matching your current directory will be marked.
 
 ![](docs/img/majortom_show_current.png)
 ### Add a shortcut
-Use `to -a <shortcut>` to add a shortcut to the current working directory.
+Use `to -a <shortcut>` to add a shortcut to your current working directory.
 ![](docs/img/majortom_add_shortcut.png)
 
 ### Delete a shortcut
@@ -26,8 +26,8 @@ Use `to -d <shortcut>` to delete an existing shortcut.
 
 
 ### Supported Color Modes
-MajorTom defaults to use 16m (24-bit RGB) terminal color codes. It also supports 256/16/no-color modes via the
-following command-line options.  
+MajorTom defaults to terminal color mode `16m` (24-bit RGB). It also supports
+`256`,`16`, and `no-color` modes via the following command-line options.  
 
 - `-color=16m`
 - `-color=256`
@@ -54,7 +54,7 @@ familiarity with shell scripting then you should have no trouble porting it to a
 
 ## Installation
 
-### From a Pre-Made Build
+### Installing From a Pre-Made Build
 - Download one of the pre-made builds from [Releases](https://github.com/epmoyer/majortom/releases).
 - Extract the archive
     - For tar archives: `tar -xvzf <archive>` e.g. `tar -xvzf majortom_1.4.0.linux.arm.tgz`
@@ -64,8 +64,8 @@ familiarity with shell scripting then you should have no trouble porting it to a
 #### Installation example
 ![](docs/img/majortom_install.png)
 
-### From Source
-- Follow the [Build Instructions](#build-instructions) to build the install images.
+### Installing From Source
+- Follow the [Build Instructions](#build-instructions) to build the installation images.
 - `cd` into the build for your OS and processor architecture under `dist/builds`
 - Run `./install.sh`
 
@@ -102,7 +102,7 @@ A typical config file containing a few shortcuts might look like this:
 ## Build Instructions
 _(These instructions presume that you have a working [go](https://go.dev) environment set up on your machine)_
 
-### To build from source
+### Building from source
 - Clone the repo.
 - `cd` into the repo.
 - Run `go get .` to fetch the dependencies.
