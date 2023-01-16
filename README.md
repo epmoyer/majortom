@@ -56,6 +56,13 @@ familiarity with shell scripting then you should have no trouble porting it to a
 
 ### Pre-Made Builds
 🔴 TBD
+- Extract the archive
+    - For tar archives: `tar -xvzf <archive>` e.g. `tar -xvzf majortom_1.4.0.linux.arm.tgz`
+- `cd` into the extracted archive.
+- run `./install.sh`
+
+#### Installation example
+![](docs/img/majortom_install.png)
 
 ### From Source
 - Follow the [Build Instructions](#build-instructions) to build the install images.

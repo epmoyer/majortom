@@ -78,6 +78,8 @@ do_build () {
 
 # Run builds for all target platforms
 do_build darwin amd64 zip
+do_build darwin arm zip
 do_build linux amd64 tar
+do_build linux arm tar
 
 echo "${GREEN}Done.${ENDCOLOR}"

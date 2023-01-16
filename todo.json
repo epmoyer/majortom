@@ -65,22 +65,6 @@
             "id": 2,
             "cards": [
                 {
-                    "name": "Fully comment.",
-                    "id": 115,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
-                    "name": "Code review.",
-                    "id": 116,
-                    "id_labels": [],
-                    "description": "",
-                    "due": null,
-                    "due_complete": false
-                },
-                {
                     "name": "Test repo extract/build from scratch.",
                     "id": 119,
                     "id_labels": [],
@@ -106,39 +90,19 @@
                     "due_complete": false
                 },
                 {
-                    "name": "Consider swapping yellow/magenta in 16 color mode.",
-                    "id": 121,
+                    "name": "Code review.",
+                    "id": 116,
                     "id_labels": [],
-                    "description": null,
+                    "description": "",
                     "due": null,
-                    "due_complete": false,
-                    "repeat": null
-                },
-                {
-                    "name": "Add uninstall script?",
-                    "id": 114,
-                    "id_labels": [],
-                    "description": null,
-                    "due": null,
-                    "due_complete": false,
-                    "repeat": null
+                    "due_complete": false
                 }
             ]
         },
         {
             "name": "Doing",
             "id": 3,
-            "cards": [
-                {
-                    "name": "add license",
-                    "id": 124,
-                    "id_labels": [],
-                    "description": null,
-                    "due": null,
-                    "due_complete": false,
-                    "repeat": null
-                }
-            ]
+            "cards": []
         },
         {
             "name": "Testing",
@@ -150,6 +114,32 @@
             "name": "Done",
             "id": 4,
             "cards": [
+                {
+                    "name": "Consider swapping yellow/magenta in 16 color mode.",
+                    "id": 121,
+                    "id_labels": [],
+                    "description": null,
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
+                },
+                {
+                    "name": "Fully comment.",
+                    "id": 115,
+                    "id_labels": [],
+                    "description": "",
+                    "due": null,
+                    "due_complete": false
+                },
+                {
+                    "name": "add license",
+                    "id": 124,
+                    "id_labels": [],
+                    "description": null,
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
+                },
                 {
                     "name": "Describe shell to() function dependence in usage.",
                     "id": 108,
@@ -284,6 +274,15 @@
             "name": "OBE",
             "id": 5,
             "cards": [
+                {
+                    "name": "Add uninstall script?",
+                    "id": 114,
+                    "id_labels": [],
+                    "description": null,
+                    "due": null,
+                    "due_complete": false,
+                    "repeat": null
+                },
                 {
                     "name": "Consider adding .PrintFStderr method to existing HexStyle object.",
                     "id": 101,
