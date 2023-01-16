@@ -54,8 +54,8 @@ familiarity with shell scripting then you should have no trouble porting it to a
 
 ## Installation
 
-### Pre-Made Builds
-🔴 TBD
+### From a Pre-Made Build
+- Download one of the pre-made builds from [Releases](https://github.com/epmoyer/majortom/releases).
 - Extract the archive
     - For tar archives: `tar -xvzf <archive>` e.g. `tar -xvzf majortom_1.4.0.linux.arm.tgz`
 - `cd` into the extracted archive.
